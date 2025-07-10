@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>About EcoHub</h1>
+            <p class="lead">Your guide to sustainable living and eco-friendly practices.</p>
+            
+            <h3>Our Mission</h3>
+            <p>EcoHub is dedicated to promoting sustainable living and environmental awareness. We believe that small changes in our daily lives can make a big difference for our planet.</p>
+            
+            <h3>What We Do</h3>
+            <ul>
+                <li>Share informative articles about renewable energy and green technology</li>
+                <li>Provide practical tips for sustainable living</li>
+                <li>Create a community of environmentally conscious individuals</li>
+                <li>Promote eco-friendly practices and innovations</li>
+            </ul>
+            
+            <h3>Our Team</h3>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Student 1</h5>
+                            <p class="card-text">User authentication, profiles, and user history tracking</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Student 2</h5>
+                            <p class="card-text">Articles system, search functionality, and class-based views</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Student 3</h5>
+                            <p class="card-text">Tips system, file uploads, and forms</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Student 4</h5>
+                            <p class="card-text">Comments, favorites, UI/UX design, and footer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Stats</h5>
+                    <ul class="list-unstyled">
+                        <li>🌱 Articles: {{ articles_count|default:"0" }}</li>
+                        <li>💡 Tips: {{ tips_count|default:"0" }}</li>
+                        <li>👥 Users: {{ users_count|default:"0" }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

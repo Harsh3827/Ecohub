@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>{{ article.title }}</h2>
+            {% if article.image %}
+                <img src="{{ article.image.url }}" class="img-fluid mb-3" alt="{{ article.title }}">
+            {% endif %}
+            <p class="text-muted">By {{ article.author.username }} on {{ article.created_at|date }}</p>
+            <p>{{ article.content }}</p>
+            
+            {% if user.is_authenticated and user == article.author %}
+                <a href="{% url 'article-update' article.pk %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'article-delete' article.pk %}" class="btn btn-danger">Delete</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-md-8">
+            <h3>Comments</h3>
+            {% for comment in article.comments.all %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <p>{{ comment.content }}</p>
+                        <small class="text-muted">By {{ comment.user.username }} on {{ comment.created_at|date }}</small>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+            
+            {% if user.is_authenticated %}
+                <h4>Add Comment</h4>
+                <form method="post" action="{% url 'add-comment' article.pk %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

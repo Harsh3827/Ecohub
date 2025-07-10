@@ -1,0 +1,68 @@
+[
+  {
+    "model": "articles.article",
+    "pk": 1,
+    "fields": {
+      "title": "The Future of Solar Energy",
+      "content": "Solar energy is rapidly becoming one of the most cost-effective ways to generate electricity. With advancements in photovoltaic technology and decreasing costs, solar panels are now accessible to more homeowners than ever before. This article explores the latest developments in solar technology and how they're shaping our energy future.",
+      "author": 1,
+      "category": "energy",
+      "created_at": "2025-01-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "articles.article",
+    "pk": 2,
+    "fields": {
+      "title": "10 Simple Ways to Reduce Your Carbon Footprint",
+      "content": "Reducing your carbon footprint doesn't have to be complicated. From switching to LED bulbs to using public transportation, there are many simple changes you can make in your daily life that will have a positive impact on the environment. This guide provides practical tips that anyone can implement.",
+      "author": 1,
+      "category": "lifestyle",
+      "created_at": "2025-01-16T14:30:00Z"
+    }
+  },
+  {
+    "model": "articles.article",
+    "pk": 3,
+    "fields": {
+      "title": "Electric Vehicles: The Road to Sustainable Transportation",
+      "content": "Electric vehicles are revolutionizing the automotive industry and playing a crucial role in reducing greenhouse gas emissions. This comprehensive overview covers the benefits of EVs, charging infrastructure, and what to consider when making the switch to electric transportation.",
+      "author": 1,
+      "category": "tech",
+      "created_at": "2025-01-17T09:15:00Z"
+    }
+  },
+  {
+    "model": "tips.tip",
+    "pk": 1,
+    "fields": {
+      "title": "DIY Natural Cleaning Products",
+      "description": "Create your own eco-friendly cleaning products using simple ingredients like vinegar, baking soda, and essential oils. This not only saves money but also reduces exposure to harmful chemicals and decreases plastic waste from cleaning product bottles.",
+      "user": 1,
+      "category": "lifestyle",
+      "created_at": "2025-01-18T11:20:00Z"
+    }
+  },
+  {
+    "model": "tips.tip",
+    "pk": 2,
+    "fields": {
+      "title": "Energy-Efficient Home Improvements",
+      "description": "Simple home improvements like sealing air leaks, adding insulation, and upgrading to energy-efficient appliances can significantly reduce your energy bills and environmental impact. Start with these affordable upgrades for maximum impact.",
+      "user": 1,
+      "category": "energy",
+      "created_at": "2025-01-19T16:45:00Z"
+    }
+  },
+  {
+    "model": "tips.tip",
+    "pk": 3,
+    "fields": {
+      "title": "Sustainable Gardening Practices",
+      "description": "Transform your garden into an eco-friendly space by using native plants, composting kitchen waste, and implementing water-saving techniques. These practices support local biodiversity and reduce your garden's environmental footprint.",
+      "user": 1,
+      "category": "lifestyle",
+      "created_at": "2025-01-20T13:10:00Z"
+    }
+  }
+] 

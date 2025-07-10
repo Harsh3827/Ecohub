@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Search Results</h2>
+    
+    <!-- Search Form -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+            <form method="get" action="{% url 'search' %}" class="d-flex">
+                <input type="text" name="q" value="{{ query }}" class="form-control me-2" placeholder="Search articles and tips...">
+                <select name="type" class="form-select me-2" style="width: auto;">
+                    <option value="all" {% if search_type == 'all' %}selected{% endif %}>All</option>
+                    <option value="articles" {% if search_type == 'articles' %}selected{% endif %}>Articles</option>
+                    <option value="tips" {% if search_type == 'tips' %}selected{% endif %}>Tips</option>
+                </select>
+                <button type="submit" class="btn btn-success">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results -->
+    {% if query %}
+        {% if results %}
+            <h3>Found {{ results|length }} result{{ results|length|pluralize }} for "{{ query }}"</h3>
+            <div class="row">
+                {% for result in results %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ result.title }}</h5>
+                                {% if result.content %}
+                                    <p class="card-text">{{ result.content|truncatewords:30 }}</p>
+                                {% elif result.description %}
+                                    <p class="card-text">{{ result.description|truncatewords:30 }}</p>
+                                {% endif %}
+                                <p class="text-muted small">
+                                    {% if result.author %}
+                                        By {{ result.author.username }}
+                                    {% elif result.user %}
+                                        By {{ result.user.username }}
+                                    {% endif %}
+                                    on {{ result.created_at|date }}
+                                </p>
+                                {% if result.file_upload %}
+                                    <p><small class="text-info">📎 Has attachment</small></p>
+                                {% endif %}
+                                <a href="{% if result.content %}{% url 'article-detail' result.pk %}{% else %}{% url 'tip-detail' result.pk %}{% endif %}" 
+                                   class="btn btn-primary">
+                                    {% if result.content %}Read More{% else %}View Details{% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <h4>No results found for "{{ query }}"</h4>
+                <p>Try different keywords or browse our <a href="{% url 'article-list' %}">articles</a> and <a href="{% url 'tip-list' %}">tips</a>.</p>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-info">
+            <h4>Enter a search term to find articles and tips</h4>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

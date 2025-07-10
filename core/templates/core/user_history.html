@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Your Activity History</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Visit Statistics</h5>
+                    <p class="card-text">You have visited EcoHub <strong>{{ visits }}</strong> times!</p>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-success" role="progressbar" 
+                             style="width: {% if visits > 10 %}100{% else %}{{ visits|multiply:10 }}{% endif %}%">
+                            {{ visits }} visits
+                        </div>
+                    </div>
+                    <p class="text-muted">Keep exploring to increase your eco-awareness score!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Actions</h5>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'article-create' %}" class="btn btn-success">Share an Article</a>
+                        <a href="{% url 'tip-create' %}" class="btn btn-primary">Share a Tip</a>
+                        <a href="{% url 'search' %}" class="btn btn-info">Search Content</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Your Contributions</h5>
+                    <p class="card-text">Track your contributions to the EcoHub community.</p>
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <h3 class="text-success">{{ user_articles_count|default:"0" }}</h3>
+                            <p>Articles Shared</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h3 class="text-primary">{{ user_tips_count|default:"0" }}</h3>
+                            <p>Tips Shared</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h3 class="text-info">{{ user_comments_count|default:"0" }}</h3>
+                            <p>Comments Made</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+{% endblock %} 
