@@ -5,6 +5,8 @@ from django.urls import reverse_lazy, reverse
 from .models import Article, Comment, Favorite
 from .forms import ArticleForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -64,3 +66,25 @@ def add_comment(request, pk):
     else:
         form = CommentForm()
     return render(request, 'articles/add_comment.html', {'form': form, 'article': article})
+
+@login_required
+def toggle_favorite(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    favorite, created = Favorite.objects.get_or_create(
+        user=request.user,
+        article=article
+    )
+    
+    if not created:
+        favorite.delete()
+        is_favorited = False
+    else:
+        is_favorited = True
+    
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({
+            'is_favorited': is_favorited,
+            'favorites_count': article.favorite_set.count()
+        })
+    
+    return redirect('article-detail', pk=article.pk)

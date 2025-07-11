@@ -1,244 +1,233 @@
 
 {% extends 'base.html' %}
 {% block content %}
-<div class="search-section py-5">
+<div class="search-section py-5" style="background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);">
     <div class="container">
         <!-- Search Header -->
-        <div class="search-header mb-5">
-            <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <h1 class="display-5 fw-bold mb-3" style="color: var(--text-dark);">
-                        <i class="fas fa-search me-3 text-primary-green"></i>
-                        Search Results
-                    </h1>
-                    {% if query %}
-                        <p class="lead text-muted mb-3">
-                            Results for: "<span class="fw-bold text-primary-green">{{ query }}</span>"
-                        </p>
-                    {% endif %}
-                    <div class="search-stats">
-                        {% if articles or tips %}
-                            <span class="badge bg-success me-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
-                                <i class="fas fa-newspaper me-1"></i>{{ articles.count }} Articles
-                            </span>
-                            <span class="badge bg-warning" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
-                                <i class="fas fa-lightbulb me-1"></i>{{ tips.count }} Tips
-                            </span>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="search-form-card card shadow-custom">
-                        <div class="card-body">
-                            <form method="get" class="search-form">
-                                <div class="mb-3">
-                                    <input type="text" 
-                                           name="q" 
-                                           class="form-control form-control-lg" 
-                                           placeholder="Search articles and tips..."
-                                           value="{{ query }}"
-                                           style="border-radius: 15px;">
-                                </div>
-                                <div class="mb-3">
-                                    <select name="type" class="form-select" style="border-radius: 15px;">
-                                        <option value="all" {% if search_type == 'all' %}selected{% endif %}>All Content</option>
-                                        <option value="articles" {% if search_type == 'articles' %}selected{% endif %}>Articles</option>
-                                        <option value="tips" {% if search_type == 'tips' %}selected{% endif %}>Tips</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-success w-100" style="border-radius: 15px;">
-                                    <i class="fas fa-search me-2"></i>Search
-                                </button>
-                            </form>
+        <div class="search-header text-center mb-5" style="animation: fadeInDown 0.8s ease-out;">
+            <h1 class="display-4 fw-bold mb-3" style="color: var(--text-dark);">
+                <i class="fas fa-search me-3 text-primary-green"></i>
+                Search EcoHub
+            </h1>
+            <p class="lead text-muted">Find articles and tips about sustainable living</p>
+        </div>
+
+        <!-- Advanced Search Form -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-10">
+                <div class="search-card" style="background: white; border-radius: 20px; padding: 2.5rem; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); animation: fadeInUp 1s ease-out;">
+                    <form method="get">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold" style="color: var(--text-dark);">
+                                    <i class="fas fa-search me-2"></i>Search Term
+                                </label>
+                                <input type="text" name="q" class="form-control form-control-lg" placeholder="Enter keywords..." value="{{ request.GET.q }}" style="border-radius: 15px;">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold" style="color: var(--text-dark);">
+                                    <i class="fas fa-filter me-2"></i>Content Type
+                                </label>
+                                <select name="type" class="form-select form-select-lg" style="border-radius: 15px;">
+                                    <option value="all" {% if request.GET.type == 'all' %}selected{% endif %}>All Content</option>
+                                    <option value="articles" {% if request.GET.type == 'articles' %}selected{% endif %}>Articles Only</option>
+                                    <option value="tips" {% if request.GET.type == 'tips' %}selected{% endif %}>Tips Only</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold" style="color: var(--text-dark);">
+                                    <i class="fas fa-tags me-2"></i>Category
+                                </label>
+                                <select name="category" class="form-select form-select-lg" style="border-radius: 15px;">
+                                    <option value="">All Categories</option>
+                                    <option value="renewable_energy" {% if request.GET.category == 'renewable_energy' %}selected{% endif %}>Renewable Energy</option>
+                                    <option value="sustainable_lifestyle" {% if request.GET.category == 'sustainable_lifestyle' %}selected{% endif %}>Sustainable Lifestyle</option>
+                                    <option value="green_technology" {% if request.GET.category == 'green_technology' %}selected{% endif %}>Green Technology</option>
+                                    <option value="environmental_conservation" {% if request.GET.category == 'environmental_conservation' %}selected{% endif %}>Environmental Conservation</option>
+                                    <option value="eco_friendly_products" {% if request.GET.category == 'eco_friendly_products' %}selected{% endif %}>Eco-Friendly Products</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                        <div class="search-actions text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-lg me-3" style="border-radius: 25px; padding: 0.75rem 2rem;">
+                                <i class="fas fa-search me-2"></i>Search
+                            </button>
+                            <a href="{% url 'search' %}" class="btn btn-outline-secondary btn-lg" style="border-radius: 25px; padding: 0.75rem 2rem;">
+                                <i class="fas fa-undo me-2"></i>Clear
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
         <!-- Search Results -->
-        {% if query %}
-            {% if articles or tips %}
-                <!-- Articles Section -->
-                {% if articles %}
-                    <div class="articles-results mb-5">
-                        <div class="section-header mb-4">
-                            <h3 class="fw-bold mb-3" style="color: var(--text-dark);">
-                                <i class="fas fa-newspaper me-2 text-primary-green"></i>
-                                Articles ({{ articles.count }})
-                            </h3>
-                        </div>
-                        <div class="row">
-                            {% for article in articles %}
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card h-100 shadow-custom search-result-card">
-                                        {% if article.image %}
-                                            <div class="card-img-container" style="position: relative; overflow: hidden;">
-                                                <img src="{{ article.image.url }}" 
-                                                     class="card-img-top" 
-                                                     alt="{{ article.title }}"
-                                                     style="height: 200px; object-fit: cover;">
-                                                <div class="card-overlay" style="position: absolute; top: 15px; right: 15px;">
-                                                    <span class="badge bg-success" style="border-radius: 20px; padding: 0.5rem 1rem;">
-                                                        <i class="fas fa-leaf me-1"></i>{{ article.category|title }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                        <div class="card-body">
-                                            <h5 class="card-title fw-bold mb-3">{{ article.title }}</h5>
-                                            <p class="card-text text-muted mb-3">{{ article.content|truncatewords:25 }}</p>
-                                            <div class="article-meta mb-3">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-user me-1"></i>{{ article.author.username }}
-                                                    <span class="mx-2">•</span>
-                                                    <i class="fas fa-calendar me-1"></i>{{ article.created_at|date:"M d, Y" }}
-                                                </small>
-                                            </div>
-                                            <a href="{% url 'article-detail' article.pk %}" class="btn btn-primary w-100">
-                                                <i class="fas fa-arrow-right me-2"></i>Read Article
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
-
-                <!-- Tips Section -->
-                {% if tips %}
-                    <div class="tips-results">
-                        <div class="section-header mb-4">
-                            <h3 class="fw-bold mb-3" style="color: var(--text-dark);">
-                                <i class="fas fa-lightbulb me-2 text-warning"></i>
-                                Tips ({{ tips.count }})
-                            </h3>
-                        </div>
-                        <div class="row">
-                            {% for tip in tips %}
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card h-100 shadow-custom search-result-card">
-                                        <div class="card-body">
-                                            <div class="tip-icon mb-3">
-                                                <i class="fas fa-lightbulb fa-2x text-warning"></i>
-                                            </div>
-                                            <div class="tip-category mb-2">
-                                                <span class="badge bg-success" style="border-radius: 20px; padding: 0.5rem 1rem;">
-                                                    <i class="fas fa-leaf me-1"></i>{{ tip.category|title }}
-                                                </span>
-                                            </div>
-                                            <h5 class="card-title fw-bold mb-3">{{ tip.title }}</h5>
-                                            <p class="card-text text-muted mb-3">{{ tip.description|truncatewords:25 }}</p>
-                                            {% if tip.file_upload %}
-                                                <div class="attachment-indicator mb-3">
-                                                    <small class="text-info">
-                                                        <i class="fas fa-paperclip me-1"></i>Has attachment
-                                                    </small>
-                                                </div>
-                                            {% endif %}
-                                            <div class="tip-meta mb-3">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-user me-1"></i>{{ tip.user.username }}
-                                                    <span class="mx-2">•</span>
-                                                    <i class="fas fa-calendar me-1"></i>{{ tip.created_at|date:"M d, Y" }}
-                                                </small>
-                                            </div>
-                                            <a href="{% url 'tip-detail' tip.pk %}" class="btn btn-primary w-100">
-                                                <i class="fas fa-eye me-2"></i>View Tip
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
-            {% else %}
-                <!-- No Results -->
-                <div class="no-results text-center py-5">
-                    <div class="no-results-icon mb-4">
-                        <i class="fas fa-search fa-4x text-muted"></i>
-                    </div>
-                    <h3 class="text-muted mb-3">No Results Found</h3>
-                    <p class="text-muted mb-4 lead">
-                        We couldn't find any articles or tips matching your search: 
-                        "<span class="fw-bold">{{ query }}</span>"
-                    </p>
-                    <div class="search-suggestions">
-                        <h5 class="mb-3">Try searching for:</h5>
-                        <div class="suggestion-tags">
-                            <span class="badge bg-outline-success me-2 mb-2">renewable energy</span>
-                            <span class="badge bg-outline-success me-2 mb-2">recycling</span>
-                            <span class="badge bg-outline-success me-2 mb-2">sustainable living</span>
-                            <span class="badge bg-outline-success me-2 mb-2">eco-friendly</span>
-                            <span class="badge bg-outline-success me-2 mb-2">green technology</span>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-        {% else %}
-            <!-- No Search Query -->
-            <div class="no-query text-center py-5">
-                <div class="no-query-icon mb-4">
-                    <i class="fas fa-search fa-4x text-muted"></i>
-                </div>
-                <h3 class="text-muted mb-3">Search EcoHub</h3>
-                <p class="text-muted mb-4 lead">
-                    Enter a search term to find articles and tips about sustainable living
-                </p>
-                <a href="{% url 'home' %}" class="btn btn-success btn-lg">
-                    <i class="fas fa-home me-2"></i>Back to Home
-                </a>
+        {% if request.GET.q %}
+        <div class="search-results">
+            <div class="results-header mb-4" style="animation: fadeInLeft 0.8s ease-out;">
+                <h3 class="fw-bold" style="color: var(--text-dark);">
+                    <i class="fas fa-list-ul me-2"></i>
+                    Search Results for "<span class="text-primary-green">{{ request.GET.q }}</span>"
+                </h3>
+                <p class="text-muted">Found {{ articles|length|add:tips|length }} result{{ articles|length|add:tips|length|pluralize }}</p>
             </div>
+
+            <!-- Articles Results -->
+            {% if articles %}
+            <div class="articles-section mb-5" style="animation: fadeInUp 1s ease-out;">
+                <h4 class="section-title fw-bold mb-4" style="color: var(--text-dark); border-left: 4px solid var(--primary-green); padding-left: 1rem;">
+                    <i class="fas fa-newspaper me-2"></i>Articles ({{ articles|length }})
+                </h4>
+                <div class="row">
+                    {% for article in articles %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="result-card" style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border-left: 4px solid var(--primary-green);">
+                            <div class="result-content">
+                                <div class="result-meta mb-2">
+                                    <span class="badge bg-success" style="border-radius: 15px; padding: 0.4rem 0.8rem;">
+                                        <i class="fas fa-newspaper me-1"></i>Article
+                                    </span>
+                                    {% if article.category %}
+                                    <span class="badge bg-light text-dark ms-2" style="border-radius: 15px; padding: 0.4rem 0.8rem;">
+                                        {{ article.get_category_display }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <h5 class="result-title fw-bold mb-2" style="color: var(--text-dark);">
+                                    <a href="{% url 'article-detail' article.pk %}" class="text-decoration-none" style="color: inherit;">
+                                        {{ article.title }}
+                                    </a>
+                                </h5>
+                                <p class="result-excerpt text-muted mb-3">{{ article.content|truncatewords:30 }}</p>
+                                <div class="result-footer d-flex align-items-center justify-content-between">
+                                    <div class="author-info d-flex align-items-center">
+                                        <div class="avatar-small" style="width: 25px; height: 25px; background: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; margin-right: 0.5rem;">
+                                            {{ article.author.username|first|upper }}
+                                        </div>
+                                        <small class="text-muted">{{ article.author.username }} • {{ article.created_at|date:"M d, Y" }}</small>
+                                    </div>
+                                    <a href="{% url 'article-detail' article.pk %}" class="btn btn-sm btn-outline-primary" style="border-radius: 15px;">
+                                        Read More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Tips Results -->
+            {% if tips %}
+            <div class="tips-section mb-5" style="animation: fadeInUp 1.2s ease-out;">
+                <h4 class="section-title fw-bold mb-4" style="color: var(--text-dark); border-left: 4px solid #f59e0b; padding-left: 1rem;">
+                    <i class="fas fa-lightbulb me-2"></i>Tips ({{ tips|length }})
+                </h4>
+                <div class="row">
+                    {% for tip in tips %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="result-card" style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border-left: 4px solid #f59e0b;">
+                            <div class="result-content">
+                                <div class="result-meta mb-2">
+                                    <span class="badge bg-warning text-dark" style="border-radius: 15px; padding: 0.4rem 0.8rem;">
+                                        <i class="fas fa-lightbulb me-1"></i>Tip
+                                    </span>
+                                    {% if tip.file_upload %}
+                                    <span class="badge bg-info text-white ms-2" style="border-radius: 15px; padding: 0.4rem 0.8rem;">
+                                        <i class="fas fa-paperclip me-1"></i>Attachment
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <h5 class="result-title fw-bold mb-2" style="color: var(--text-dark);">
+                                    <a href="{% url 'tip-detail' tip.pk %}" class="text-decoration-none" style="color: inherit;">
+                                        {{ tip.title }}
+                                    </a>
+                                </h5>
+                                <p class="result-excerpt text-muted mb-3">{{ tip.description|truncatewords:30 }}</p>
+                                <div class="result-footer d-flex align-items-center justify-content-between">
+                                    <div class="author-info d-flex align-items-center">
+                                        <div class="avatar-small" style="width: 25px; height: 25px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; margin-right: 0.5rem;">
+                                            {{ tip.user.username|first|upper }}
+                                        </div>
+                                        <small class="text-muted">{{ tip.user.username }} • {{ tip.created_at|date:"M d, Y" }}</small>
+                                    </div>
+                                    <a href="{% url 'tip-detail' tip.pk %}" class="btn btn-sm btn-outline-warning" style="border-radius: 15px;">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- No Results -->
+            {% if not articles and not tips %}
+            <div class="no-results text-center py-5" style="animation: fadeInUp 1s ease-out;">
+                <div class="no-results-icon mb-4">
+                    <i class="fas fa-search fa-4x text-muted" style="opacity: 0.5;"></i>
+                </div>
+                <h3 class="text-muted mb-3">No results found</h3>
+                <p class="text-muted mb-4">Try adjusting your search terms or browse our content categories.</p>
+                <div class="quick-links">
+                    <a href="{% url 'article-list' %}" class="btn btn-outline-success me-3" style="border-radius: 25px;">
+                        <i class="fas fa-newspaper me-2"></i>Browse Articles
+                    </a>
+                    <a href="{% url 'tip-list' %}" class="btn btn-outline-warning" style="border-radius: 25px;">
+                        <i class="fas fa-lightbulb me-2"></i>Browse Tips
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
         {% endif %}
     </div>
 </div>
 
 <style>
-    .search-result-card {
-        transition: all 0.3s ease;
-        border: none;
-        border-radius: 15px;
-        border-left: 4px solid var(--primary-green);
+    .result-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
     }
-
-    .search-result-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+    
+    .result-title a:hover {
+        color: var(--primary-green) !important;
     }
-
-    .search-form-card {
-        border: none;
-        border-radius: 15px;
-        background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
+    
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-
-    .no-results, .no-query {
-        background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
-        border-radius: 20px;
-        padding: 3rem;
-        margin: 2rem 0;
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-
-    .suggestion-tags .badge {
-        font-size: 0.85rem;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .suggestion-tags .badge:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
-    }
-
-    .attachment-indicator {
-        background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
-        padding: 0.5rem;
-        border-radius: 8px;
-        border-left: 3px solid #3b82f6;
+    
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
 </style>
 {% endblock %}
