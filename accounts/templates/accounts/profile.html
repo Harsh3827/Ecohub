@@ -1,12 +1,153 @@
+
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-5">
-    <h2>Profile</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Update Profile</button>
-    </form>
-    <p class="mt-3"><a href="{% url 'logout' %}">Logout</a></p>
+<div class="profile-section py-5">
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="profile-header mb-5">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center">
+                    <div class="profile-avatar mb-3">
+                        {% if user.userprofile.profile_picture %}
+                            <img src="{{ user.userprofile.profile_picture.url }}" 
+                                 alt="Profile Picture" 
+                                 class="rounded-circle shadow-custom"
+                                 style="width: 120px; height: 120px; object-fit: cover;">
+                        {% else %}
+                            <div class="avatar-placeholder rounded-circle shadow-custom d-flex align-items-center justify-content-center"
+                                 style="width: 120px; height: 120px; background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);">
+                                <i class="fas fa-user fa-3x text-white"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="profile-info">
+                        <h1 class="display-5 fw-bold mb-2" style="color: var(--text-dark);">
+                            {{ user.get_full_name|default:user.username }}
+                        </h1>
+                        <p class="text-muted mb-3">
+                            <i class="fas fa-at me-2"></i>{{ user.email }}
+                        </p>
+                        {% if user.userprofile.bio %}
+                            <p class="lead mb-3">{{ user.userprofile.bio }}</p>
+                        {% endif %}
+                        <div class="profile-stats">
+                            <span class="badge bg-success me-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                                <i class="fas fa-calendar me-1"></i>
+                                Joined {{ user.date_joined|date:"F Y" }}
+                            </span>
+                            <span class="badge bg-info" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                                <i class="fas fa-eye me-1"></i>
+                                {{ user.userprofile.total_visits }} visits
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Actions -->
+        <div class="profile-actions mb-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-custom">
+                        <div class="card-body text-center">
+                            <i class="fas fa-edit fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">Edit Profile</h5>
+                            <p class="card-text text-muted">Update your profile information and preferences</p>
+                            <a href="#" class="btn btn-primary">
+                                <i class="fas fa-edit me-2"></i>Edit Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-custom">
+                        <div class="card-body text-center">
+                            <i class="fas fa-history fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">View History</h5>
+                            <p class="card-text text-muted">See your activity and browsing history</p>
+                            <a href="{% url 'user-history' %}" class="btn btn-success">
+                                <i class="fas fa-history me-2"></i>View History
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Overview -->
+        <div class="activity-overview">
+            <div class="section-header text-center mb-4">
+                <h2 class="display-6 fw-bold mb-3" style="color: var(--text-dark);">
+                    <i class="fas fa-chart-line me-3 text-primary-green"></i>
+                    Activity Overview
+                </h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="stat-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <div class="stat-icon mb-3">
+                                <i class="fas fa-newspaper fa-2x text-primary"></i>
+                            </div>
+                            <h3 class="fw-bold mb-1">{{ user.article_set.count }}</h3>
+                            <p class="text-muted mb-0">Articles Written</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="stat-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <div class="stat-icon mb-3">
+                                <i class="fas fa-lightbulb fa-2x text-warning"></i>
+                            </div>
+                            <h3 class="fw-bold mb-1">{{ user.tip_set.count }}</h3>
+                            <p class="text-muted mb-0">Tips Shared</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="stat-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <div class="stat-icon mb-3">
+                                <i class="fas fa-comments fa-2x text-info"></i>
+                            </div>
+                            <h3 class="fw-bold mb-1">{{ user.comment_set.count }}</h3>
+                            <p class="text-muted mb-0">Comments Made</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %} 
+
+<style>
+    .stat-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 15px;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .profile-header {
+        background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .profile-avatar img,
+    .avatar-placeholder {
+        border: 4px solid white;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}

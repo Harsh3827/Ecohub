@@ -1,66 +1,364 @@
+
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-5">
-    <h1>Your Activity History</h1>
-    
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Visit Statistics</h5>
-                    <p class="card-text">You have visited EcoHub <strong>{{ visits }}</strong> times!</p>
-                    <div class="progress mb-3">
-                        <div class="progress-bar bg-success" role="progressbar" 
-                             style="width: {% if visits > 10 %}100{% else %}{{ visits|multiply:10 }}{% endif %}%">
-                            {{ visits }} visits
-                        </div>
-                    </div>
-                    <p class="text-muted">Keep exploring to increase your eco-awareness score!</p>
+<div class="user-history-section py-5">
+    <div class="container">
+        <!-- History Header -->
+        <div class="history-header mb-5">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-3" style="color: var(--text-dark);">
+                        <i class="fas fa-history me-3 text-primary-green"></i>
+                        Your Activity History
+                    </h1>
+                    <p class="lead text-muted mb-3">
+                        Track your engagement and contributions to the EcoHub community
+                    </p>
                 </div>
-            </div>
-        </div>
-        
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Quick Actions</h5>
-                    <div class="d-grid gap-2">
-                        <a href="{% url 'article-create' %}" class="btn btn-success">Share an Article</a>
-                        <a href="{% url 'tip-create' %}" class="btn btn-primary">Share a Tip</a>
-                        <a href="{% url 'search' %}" class="btn btn-info">Search Content</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Your Contributions</h5>
-                    <p class="card-text">Track your contributions to the EcoHub community.</p>
-                    <div class="row text-center">
-                        <div class="col-md-4">
-                            <h3 class="text-success">{{ user_articles_count|default:"0" }}</h3>
-                            <p>Articles Shared</p>
+                <div class="col-lg-4 text-lg-end">
+                    <div class="history-stats">
+                        <div class="stat-item mb-2">
+                            <span class="badge bg-success" style="font-size: 1rem; padding: 0.75rem 1.5rem;">
+                                <i class="fas fa-eye me-2"></i>{{ visits }} Total Visits
+                            </span>
                         </div>
-                        <div class="col-md-4">
-                            <h3 class="text-primary">{{ user_tips_count|default:"0" }}</h3>
-                            <p>Tips Shared</p>
-                        </div>
-                        <div class="col-md-4">
-                            <h3 class="text-info">{{ user_comments_count|default:"0" }}</h3>
-                            <p>Comments Made</p>
+                        <div class="stat-item">
+                            <span class="badge bg-info" style="font-size: 1rem; padding: 0.75rem 1.5rem;">
+                                <i class="fas fa-clock me-2"></i>Member since {{ user.date_joined|date:"F Y" }}
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="mt-4">
-        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+
+        <!-- Activity Overview -->
+        <div class="activity-overview mb-5">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="activity-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <div class="activity-icon mb-3">
+                                <i class="fas fa-newspaper fa-3x text-primary"></i>
+                            </div>
+                            <h3 class="fw-bold mb-1">{{ user.article_set.count }}</h3>
+                            <p class="text-muted mb-0">Articles Written</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="activity-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <div class="activity-icon mb-3">
+                                <i class="fas fa-lightbulb fa-3x text-warning"></i>
+                            </div>
+                            <h3 class="fw-bold mb-1">{{ user.tip_set.count }}</h3>
+                            <p class="text-muted mb-0">Tips Shared</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="activity-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <div class="activity-icon mb-3">
+                                <i class="fas fa-comments fa-3x text-info"></i>
+                            </div>
+                            <h3 class="fw-bold mb-1">{{ user.comment_set.count }}</h3>
+                            <p class="text-muted mb-0">Comments Made</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="activity-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <div class="activity-icon mb-3">
+                                <i class="fas fa-heart fa-3x text-danger"></i>
+                            </div>
+                            <h3 class="fw-bold mb-1">{{ user.favorite_set.count }}</h3>
+                            <p class="text-muted mb-0">Favorites</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity mb-5">
+            <div class="section-header mb-4">
+                <h3 class="fw-bold mb-3" style="color: var(--text-dark);">
+                    <i class="fas fa-clock me-2 text-primary-green"></i>
+                    Recent Activity
+                </h3>
+            </div>
+            
+            <div class="activity-timeline">
+                {% if user.article_set.exists or user.tip_set.exists or user.comment_set.exists %}
+                    <!-- Recent Articles -->
+                    {% for article in user.article_set.all|slice:":3" %}
+                        <div class="timeline-item">
+                            <div class="timeline-marker">
+                                <i class="fas fa-newspaper text-primary"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="card shadow-custom">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-1">
+                                                    <i class="fas fa-plus me-2 text-success"></i>
+                                                    Published Article
+                                                </h6>
+                                                <h5 class="mb-2 fw-bold">{{ article.title }}</h5>
+                                                <p class="text-muted mb-2">{{ article.content|truncatewords:15 }}</p>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar me-1"></i>{{ article.created_at|date:"F d, Y \a\t g:i A" }}
+                                                </small>
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="{% url 'article-detail' article.pk %}" class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-eye me-1"></i>View
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    <!-- Recent Tips -->
+                    {% for tip in user.tip_set.all|slice:":3" %}
+                        <div class="timeline-item">
+                            <div class="timeline-marker">
+                                <i class="fas fa-lightbulb text-warning"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="card shadow-custom">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-1">
+                                                    <i class="fas fa-plus me-2 text-success"></i>
+                                                    Shared Tip
+                                                </h6>
+                                                <h5 class="mb-2 fw-bold">{{ tip.title }}</h5>
+                                                <p class="text-muted mb-2">{{ tip.description|truncatewords:15 }}</p>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar me-1"></i>{{ tip.created_at|date:"F d, Y \a\t g:i A" }}
+                                                </small>
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="{% url 'tip-detail' tip.pk %}" class="btn btn-outline-warning btn-sm">
+                                                    <i class="fas fa-eye me-1"></i>View
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    <!-- Recent Comments -->
+                    {% for comment in user.comment_set.all|slice:":3" %}
+                        <div class="timeline-item">
+                            <div class="timeline-marker">
+                                <i class="fas fa-comment text-info"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="card shadow-custom">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-1">
+                                                    <i class="fas fa-plus me-2 text-success"></i>
+                                                    Added Comment
+                                                </h6>
+                                                <h5 class="mb-2 fw-bold">{{ comment.article.title }}</h5>
+                                                <p class="text-muted mb-2">{{ comment.content|truncatewords:15 }}</p>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar me-1"></i>{{ comment.created_at|date:"F d, Y \a\t g:i A" }}
+                                                </small>
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="{% url 'article-detail' comment.article.pk %}" class="btn btn-outline-info btn-sm">
+                                                    <i class="fas fa-eye me-1"></i>View
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-activity text-center py-5">
+                        <div class="no-activity-icon mb-4">
+                            <i class="fas fa-calendar-times fa-4x text-muted"></i>
+                        </div>
+                        <h4 class="text-muted mb-3">No Activity Yet</h4>
+                        <p class="text-muted mb-4 lead">
+                            Start contributing to the EcoHub community by sharing your first article or tip!
+                        </p>
+                        <div class="activity-actions">
+                            <a href="{% url 'article-create' %}" class="btn btn-success btn-lg me-3">
+                                <i class="fas fa-plus me-2"></i>Write Article
+                            </a>
+                            <a href="{% url 'tip-create' %}" class="btn btn-outline-success btn-lg">
+                                <i class="fas fa-lightbulb me-2"></i>Share Tip
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <div class="section-header mb-4">
+                <h3 class="fw-bold mb-3" style="color: var(--text-dark);">
+                    <i class="fas fa-bolt me-2 text-primary-green"></i>
+                    Quick Actions
+                </h3>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="action-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <i class="fas fa-plus fa-2x text-success mb-3"></i>
+                            <h6 class="fw-bold mb-2">Create Article</h6>
+                            <p class="text-muted small mb-3">Share your sustainability knowledge</p>
+                            <a href="{% url 'article-create' %}" class="btn btn-success btn-sm">
+                                <i class="fas fa-plus me-1"></i>Create
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="action-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <i class="fas fa-lightbulb fa-2x text-warning mb-3"></i>
+                            <h6 class="fw-bold mb-2">Share Tip</h6>
+                            <p class="text-muted small mb-3">Help others with eco-friendly tips</p>
+                            <a href="{% url 'tip-create' %}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-lightbulb me-1"></i>Share
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="action-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <i class="fas fa-search fa-2x text-info mb-3"></i>
+                            <h6 class="fw-bold mb-2">Explore Content</h6>
+                            <p class="text-muted small mb-3">Discover new articles and tips</p>
+                            <a href="{% url 'search' %}" class="btn btn-info btn-sm">
+                                <i class="fas fa-search me-1"></i>Explore
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="action-card card shadow-custom">
+                        <div class="card-body text-center">
+                            <i class="fas fa-user-edit fa-2x text-primary mb-3"></i>
+                            <h6 class="fw-bold mb-2">Edit Profile</h6>
+                            <p class="text-muted small mb-3">Update your profile information</p>
+                            <a href="{% url 'profile' %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-{% endblock %} 
+
+<style>
+    .activity-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 15px;
+    }
+
+    .activity-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .action-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 15px;
+        border-left: 4px solid var(--primary-green);
+    }
+
+    .action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .activity-timeline {
+        position: relative;
+        padding-left: 2rem;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -1.5rem;
+        top: 0;
+        bottom: -2rem;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--primary-green), var(--accent-green));
+    }
+
+    .timeline-item:last-child::before {
+        display: none;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        left: -2rem;
+        top: 0.5rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: white;
+        border: 3px solid var(--primary-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        z-index: 1;
+    }
+
+    .timeline-content {
+        margin-left: 1rem;
+    }
+
+    .timeline-content .card {
+        border-left: 4px solid var(--primary-green);
+        transition: all 0.3s ease;
+    }
+
+    .timeline-content .card:hover {
+        transform: translateX(5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .no-activity {
+        background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        margin: 2rem 0;
+    }
+</style>
+{% endblock %}

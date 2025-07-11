@@ -1,28 +1,196 @@
+
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-5">
-    <h2>Eco-Friendly Tips</h2>
-    {% if user.is_authenticated %}
-        <a href="{% url 'tip-create' %}" class="btn btn-success mb-3">Share a Tip</a>
-    {% endif %}
-    <div class="row">
-        {% for tip in tips %}
-            <div class="col-md-6 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ tip.title }}</h5>
-                        <p class="card-text">{{ tip.description|truncatewords:30 }}</p>
-                        <p class="text-muted">By {{ tip.user.username }} on {{ tip.created_at|date }}</p>
-                        {% if tip.file_upload %}
-                            <p><small class="text-info">📎 Has attachment</small></p>
-                        {% endif %}
-                        <a href="{% url 'tip-detail' tip.pk %}" class="btn btn-primary">View Details</a>
+<div class="tips-section py-5">
+    <div class="container">
+        <!-- Header Section -->
+        <div class="section-header text-center mb-5">
+            <h1 class="display-4 fw-bold mb-3" style="color: var(--text-dark);">
+                <i class="fas fa-lightbulb me-3 text-warning"></i>
+                Eco-Friendly Tips
+            </h1>
+            <p class="lead text-muted mb-4">
+                Practical advice and tips from our community to help you live more sustainably
+            </p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'tip-create' %}" class="btn btn-success btn-lg">
+                    <i class="fas fa-plus me-2"></i>Share Your Tip
+                </a>
+            {% endif %}
+        </div>
+
+        <!-- Tips Grid -->
+        <div class="row">
+            {% for tip in tips %}
+                <div class="col-lg-6 col-xl-4 mb-4">
+                    <div class="card h-100 shadow-custom tip-card">
+                        <div class="card-body d-flex flex-column">
+                            <!-- Tip Icon -->
+                            <div class="tip-icon mb-3">
+                                <div class="icon-container" style="width: 60px; height: 60px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-lightbulb fa-2x text-white"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Tip Category -->
+                            <div class="tip-category mb-2">
+                                <span class="badge bg-success" style="border-radius: 20px; padding: 0.5rem 1rem; font-size: 0.8rem;">
+                                    <i class="fas fa-leaf me-1"></i>{{ tip.category|title }}
+                                </span>
+                            </div>
+                            
+                            <!-- Tip Title -->
+                            <h5 class="card-title fw-bold mb-3" style="color: var(--text-dark); line-height: 1.3;">
+                                {{ tip.title }}
+                            </h5>
+                            
+                            <!-- Tip Description -->
+                            <p class="card-text text-muted mb-3 flex-grow-1">
+                                {{ tip.description|truncatewords:30 }}
+                            </p>
+                            
+                            <!-- File Attachment Indicator -->
+                            {% if tip.file_upload %}
+                                <div class="attachment-indicator mb-3">
+                                    <div class="d-flex align-items-center p-2 rounded" style="background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%); border-left: 4px solid #3b82f6;">
+                                        <i class="fas fa-paperclip me-2 text-primary"></i>
+                                        <small class="text-primary fw-medium">Includes attachment</small>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Tip Meta -->
+                            <div class="tip-meta mb-3">
+                                <div class="d-flex align-items-center text-muted">
+                                    <div class="author-info d-flex align-items-center">
+                                        <i class="fas fa-user-circle me-2"></i>
+                                        <span class="fw-medium">{{ tip.user.username }}</span>
+                                    </div>
+                                    <span class="mx-2">•</span>
+                                    <div class="date-info d-flex align-items-center">
+                                        <i class="fas fa-calendar me-2"></i>
+                                        <span>{{ tip.created_at|date:"M d, Y" }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Actions -->
+                            <div class="card-actions">
+                                <a href="{% url 'tip-detail' tip.pk %}" class="btn btn-primary w-100">
+                                    <i class="fas fa-eye me-2"></i>View Full Tip
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="empty-state text-center py-5">
+                        <div class="empty-icon mb-4">
+                            <i class="fas fa-lightbulb fa-4x text-muted"></i>
+                        </div>
+                        <h3 class="text-muted mb-3">No Tips Yet</h3>
+                        <p class="text-muted mb-4 lead">
+                            Be the first to share your eco-friendly tips with the community!
+                        </p>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'tip-create' %}" class="btn btn-success btn-lg">
+                                <i class="fas fa-plus me-2"></i>Share First Tip
+                            </a>
+                        {% else %}
+                            <a href="{% url 'register' %}" class="btn btn-success btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Join to Share Tips
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination (if needed) -->
+        {% if tips.has_other_pages %}
+            <div class="pagination-wrapper mt-5">
+                <nav aria-label="Tips pagination">
+                    <ul class="pagination justify-content-center">
+                        {% if tips.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ tips.previous_page_number }}">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for num in tips.paginator.page_range %}
+                            {% if tips.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > tips.number|add:'-3' and num < tips.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if tips.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ tips.next_page_number }}">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
-        {% empty %}
-            <p>No tips yet.</p>
-        {% endfor %}
+        {% endif %}
     </div>
 </div>
-{% endblock %} 
+
+<style>
+.tip-card {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.tip-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+.tip-card .icon-container {
+    transition: transform 0.3s ease;
+}
+
+.tip-card:hover .icon-container {
+    transform: scale(1.1);
+}
+
+.empty-state {
+    background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
+    border-radius: 20px;
+    padding: 3rem;
+    margin: 2rem 0;
+}
+
+.pagination .page-link {
+    border: none;
+    color: var(--primary-green);
+    padding: 0.75rem 1rem;
+    margin: 0 0.25rem;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--light-green);
+    color: var(--primary-green);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+</style>
+{% endblock %}

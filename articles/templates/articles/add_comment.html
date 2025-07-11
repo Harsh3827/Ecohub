@@ -1,12 +1,104 @@
+
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-5">
-    <h2>Add Comment to "{{ article.title }}"</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Add Comment</button>
-        <a href="{% url 'article-detail' article.pk %}" class="btn btn-secondary">Cancel</a>
-    </form>
+<div class="add-comment-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="comment-form-card"
+                    style="background: white; border-radius: 20px; padding: 2.5rem; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);">
+                    
+                    <div class="text-center mb-4">
+                        <div class="comment-icon mb-3">
+                            <i class="fas fa-comments fa-3x text-primary-green"></i>
+                        </div>
+                        <h2 class="fw-bold mb-2" style="color: var(--text-dark);">Add Comment</h2>
+                        <p class="text-muted">Share your thoughts on this article</p>
+                    </div>
+
+                    <!-- Article Preview -->
+                    <div class="article-preview mb-4">
+                        <div class="card shadow-custom">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ article.title }}</h5>
+                                <p class="card-text text-muted">{{ article.content|truncatewords:30 }}</p>
+                                <div class="article-meta">
+                                    <small class="text-muted">
+                                        <i class="fas fa-user me-1"></i>{{ article.author.username }}
+                                        <span class="mx-2">•</span>
+                                        <i class="fas fa-calendar me-1"></i>{{ article.created_at|date:"F d, Y" }}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold" style="color: var(--text-dark);">
+                                <i class="fas fa-comment me-2"></i>Your Comment
+                            </label>
+                            {{ form.content }}
+                            {% if form.content.help_text %}
+                                <div class="form-text">{{ form.content.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-actions d-flex justify-content-between">
+                            <a href="{% url 'article-detail' article.pk %}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Article
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Post Comment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %} 
+
+<style>
+    .comment-form-card {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .article-preview .card {
+        border-left: 4px solid var(--primary-green);
+        transition: all 0.3s ease;
+    }
+
+    .article-preview .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+        border-radius: 12px;
+        padding: 1rem;
+        border: 2px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    textarea.form-control:focus {
+        border-color: var(--primary-green);
+        box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.1);
+    }
+</style>
+{% endblock %}

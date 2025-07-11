@@ -1,12 +1,110 @@
+
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-5">
-    <h2>{% if form.instance.pk %}Edit Article{% else %}New Article{% endif %}</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a href="{% url 'article-list' %}" class="btn btn-secondary">Cancel</a>
-    </form>
+<div class="article-form-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="form-card"
+                    style="background: white; border-radius: 20px; padding: 2.5rem; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);">
+                    
+                    <div class="text-center mb-4">
+                        <div class="form-icon mb-3">
+                            <i class="fas fa-newspaper fa-3x text-primary-green"></i>
+                        </div>
+                        <h2 class="fw-bold mb-2" style="color: var(--text-dark);">
+                            {% if object %}Edit Article{% else %}Create New Article{% endif %}
+                        </h2>
+                        <p class="text-muted">Share your sustainability insights with the community</p>
+                    </div>
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold" style="color: var(--text-dark);">
+                                <i class="fas fa-heading me-2"></i>Article Title
+                            </label>
+                            {{ form.title }}
+                            {% if form.title.help_text %}
+                                <div class="form-text">{{ form.title.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold" style="color: var(--text-dark);">
+                                <i class="fas fa-tag me-2"></i>Category
+                            </label>
+                            {{ form.category }}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold" style="color: var(--text-dark);">
+                                <i class="fas fa-image me-2"></i>Featured Image (Optional)
+                            </label>
+                            {{ form.image }}
+                            {% if form.image.help_text %}
+                                <div class="form-text">{{ form.image.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold" style="color: var(--text-dark);">
+                                <i class="fas fa-align-left me-2"></i>Content
+                            </label>
+                            {{ form.content }}
+                            {% if form.content.help_text %}
+                                <div class="form-text">{{ form.content.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-actions d-flex justify-content-between">
+                            <a href="{% url 'article-list' %}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-save me-2"></i>
+                                {% if object %}Update Article{% else %}Publish Article{% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %} 
+
+<style>
+    .form-card {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-control, .form-select {
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        border: 2px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-green);
+        box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.1);
+    }
+
+    textarea.form-control {
+        min-height: 200px;
+        resize: vertical;
+    }
+</style>
+{% endblock %}

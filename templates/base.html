@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,68 +6,400 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}EcoHub - Your Guide to Sustainable Living{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-green: #28a745;
-            --secondary-green: #20c997;
-            --dark-green: #155724;
+            --primary-green: #10b981;
+            --secondary-green: #059669;
+            --light-green: #d1fae5;
+            --dark-green: #047857;
+            --accent-green: #6ee7b7;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --border-color: #e5e7eb;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #fff;
+        }
+
+        /* Navigation Styling */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+            padding: 1rem 0;
+            border: none;
+        }
+
         .navbar-brand {
-            color: var(--primary-green) !important;
-            font-weight: bold;
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
         }
-        .btn-success {
-            background-color: var(--primary-green);
-            border-color: var(--primary-green);
+
+        .navbar-brand:hover {
+            color: var(--accent-green) !important;
         }
-        .footer {
-            background-color: var(--dark-green);
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        .navbar-toggler {
+            border: none;
             color: white;
-            padding: 2rem 0;
-            margin-top: 3rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        /* Button Styling */
+        .btn-success {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, var(--secondary-green) 0%, var(--dark-green) 100%);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-outline-success {
+            border: 2px solid var(--primary-green);
+            color: var(--primary-green);
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-success:hover {
+            background: var(--primary-green);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-outline-light {
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-light {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--primary-green);
+            border: none;
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-light:hover {
+            background: white;
+            color: var(--secondary-green);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
+        }
+
+        .btn-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Card Styling */
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img-top {
+            border-radius: 0;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-text {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Alert Styling */
+        .alert {
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, var(--light-green) 0%, #ecfdf5 100%);
+            border-left-color: var(--primary-green);
+            color: var(--dark-green);
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+            border-left-color: #3b82f6;
+            color: #1e40af;
+        }
+
+        .alert-warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+            border-left-color: #f59e0b;
+            color: #92400e;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #fecaca 0%, #fef2f2 100%);
+            border-left-color: #ef4444;
+            color: #b91c1c;
+        }
+
+        /* Form Styling */
+        .form-control, .form-select {
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.1);
+        }
+
+        /* Footer Styling */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-green) 0%, #022c22 100%);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer h5 {
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer .text-light {
+            color: rgba(255, 255, 255, 0.8) !important;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer .text-light:hover {
+            color: var(--accent-green) !important;
+        }
+
+        .footer hr {
+            border-color: rgba(255, 255, 255, 0.1);
+            margin: 2rem 0 1rem;
+        }
+
+        /* Container Spacing */
+        .container {
+            max-width: 1200px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+            
+            .btn-lg {
+                padding: 0.6rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+        }
+
+        /* Utility Classes */
+        .text-primary-green {
+            color: var(--primary-green) !important;
+        }
+
+        .bg-light-green {
+            background-color: var(--light-green) !important;
+        }
+
+        .shadow-custom {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">🌱 EcoHub</a>
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fas fa-leaf me-2"></i>EcoHub
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link" href="{% url 'home' %}">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'article-list' %}">Articles</a>
+                        <a class="nav-link" href="{% url 'article-list' %}">
+                            <i class="fas fa-newspaper me-1"></i>Articles
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'tip-list' %}">Tips</a>
+                        <a class="nav-link" href="{% url 'tip-list' %}">
+                            <i class="fas fa-lightbulb me-1"></i>Tips
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">About</a>
+                        <a class="nav-link" href="{% url 'about' %}">
+                            <i class="fas fa-info-circle me-1"></i>About
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                        <a class="nav-link" href="{% url 'contact' %}">
+                            <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                            <a class="nav-link" href="{% url 'profile' %}">
+                                <i class="fas fa-user me-1"></i>Profile
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            <a class="nav-link" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt me-1"></i>Logout
+                            </a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            <a class="nav-link" href="{% url 'login' %}">
+                                <i class="fas fa-sign-in-alt me-1"></i>Login
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                            <a class="nav-link" href="{% url 'register' %}">
+                                <i class="fas fa-user-plus me-1"></i>Register
+                            </a>
                         </li>
                     {% endif %}
                 </ul>
@@ -76,9 +409,10 @@
 
     <!-- Messages -->
     {% if messages %}
-        <div class="container mt-3">
+        <div class="container mt-4">
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                    <i class="fas fa-check-circle me-2"></i>
                     {{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
@@ -96,32 +430,35 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <h5>EcoHub</h5>
-                    <p>Your guide to sustainable living and eco-friendly practices.</p>
+                <div class="col-md-4 mb-4">
+                    <h5><i class="fas fa-leaf me-2"></i>EcoHub</h5>
+                    <p class="text-light">Your comprehensive guide to sustainable living and eco-friendly practices. Join our community in making the world a greener place.</p>
                 </div>
-                <div class="col-md-4">
-                    <h5>Quick Links</h5>
+                <div class="col-md-4 mb-4">
+                    <h5><i class="fas fa-link me-2"></i>Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{% url 'home' %}" class="text-light">Home</a></li>
-                        <li><a href="{% url 'article-list' %}" class="text-light">Articles</a></li>
-                        <li><a href="{% url 'tip-list' %}" class="text-light">Tips</a></li>
-                        <li><a href="{% url 'about' %}" class="text-light">About</a></li>
+                        <li class="mb-2"><a href="{% url 'home' %}" class="text-light"><i class="fas fa-home me-2"></i>Home</a></li>
+                        <li class="mb-2"><a href="{% url 'article-list' %}" class="text-light"><i class="fas fa-newspaper me-2"></i>Articles</a></li>
+                        <li class="mb-2"><a href="{% url 'tip-list' %}" class="text-light"><i class="fas fa-lightbulb me-2"></i>Tips</a></li>
+                        <li class="mb-2"><a href="{% url 'about' %}" class="text-light"><i class="fas fa-info-circle me-2"></i>About</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <h5>Contact</h5>
-                    <p>Email: info@ecohub.com<br>
-                    Phone: (555) 123-4567</p>
+                <div class="col-md-4 mb-4">
+                    <h5><i class="fas fa-envelope me-2"></i>Contact</h5>
+                    <p class="text-light">
+                        <i class="fas fa-envelope me-2"></i>Email: info@ecohub.com<br>
+                        <i class="fas fa-phone me-2"></i>Phone: (555) 123-4567<br>
+                        <i class="fas fa-map-marker-alt me-2"></i>Green City, Earth
+                    </p>
                 </div>
             </div>
-            <hr class="my-4">
+            <hr>
             <div class="text-center">
-                <p>&copy; 2025 EcoHub. All rights reserved.</p>
+                <p class="text-light">&copy; 2025 EcoHub. All rights reserved. Made with <i class="fas fa-heart text-success"></i> for our planet.</p>
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+</html>
