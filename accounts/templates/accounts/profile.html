@@ -3,13 +3,23 @@
 {% block content %}
 <div class="profile-section py-5">
     <div class="container">
+        <!-- Display Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <!-- Profile Header -->
         <div class="profile-header mb-5">
             <div class="row align-items-center">
                 <div class="col-md-3 text-center">
                     <div class="profile-avatar mb-3">
-                        {% if user.userprofile.profile_picture %}
-                            <img src="{{ user.userprofile.profile_picture.url }}" 
+                        {% if user_profile.profile_picture %}
+                            <img src="{{ user_profile.profile_picture.url }}" 
                                  alt="Profile Picture" 
                                  class="rounded-circle shadow-custom"
                                  style="width: 120px; height: 120px; object-fit: cover;">
@@ -29,8 +39,8 @@
                         <p class="text-muted mb-3">
                             <i class="fas fa-at me-2"></i>{{ user.email }}
                         </p>
-                        {% if user.userprofile.bio %}
-                            <p class="lead mb-3">{{ user.userprofile.bio }}</p>
+                        {% if user_profile.bio %}
+                            <p class="lead mb-3">{{ user_profile.bio }}</p>
                         {% endif %}
                         <div class="profile-stats">
                             <span class="badge bg-success me-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
@@ -39,10 +49,70 @@
                             </span>
                             <span class="badge bg-info" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
                                 <i class="fas fa-eye me-1"></i>
-                                {{ user.userprofile.total_visits }} visits
+                                {{ user_profile.visit_count }} visits
                             </span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Profile Form -->
+        <div class="edit-profile-section mb-5">
+            <div class="card shadow-custom">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-edit me-2"></i>Edit Profile
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Display form errors -->
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold" style="color: var(--text-dark);">
+                                    <i class="fas fa-info-circle me-2"></i>Bio
+                                </label>
+                                {{ form.bio }}
+                                {% if form.bio.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.bio.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold" style="color: var(--text-dark);">
+                                    <i class="fas fa-camera me-2"></i>Profile Picture
+                                </label>
+                                {{ form.profile_picture }}
+                                {% if form.profile_picture.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.profile_picture.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -53,11 +123,11 @@
                 <div class="col-md-6">
                     <div class="card h-100 shadow-custom">
                         <div class="card-body text-center">
-                            <i class="fas fa-edit fa-3x text-primary mb-3"></i>
-                            <h5 class="card-title">Edit Profile</h5>
-                            <p class="card-text text-muted">Update your profile information and preferences</p>
-                            <a href="#" class="btn btn-primary">
-                                <i class="fas fa-edit me-2"></i>Edit Profile
+                            <i class="fas fa-history fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">View History</h5>
+                            <p class="card-text text-muted">See your activity and browsing history</p>
+                            <a href="{% url 'user-history' %}" class="btn btn-success">
+                                <i class="fas fa-history me-2"></i>View History
                             </a>
                         </div>
                     </div>
@@ -65,11 +135,11 @@
                 <div class="col-md-6">
                     <div class="card h-100 shadow-custom">
                         <div class="card-body text-center">
-                            <i class="fas fa-history fa-3x text-success mb-3"></i>
-                            <h5 class="card-title">View History</h5>
-                            <p class="card-text text-muted">See your activity and browsing history</p>
-                            <a href="{% url 'user-history' %}" class="btn btn-success">
-                                <i class="fas fa-history me-2"></i>View History
+                            <i class="fas fa-sign-out-alt fa-3x text-danger mb-3"></i>
+                            <h5 class="card-title">Logout</h5>
+                            <p class="card-text text-muted">Sign out of your account</p>
+                            <a href="{% url 'logout' %}" class="btn btn-danger">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
                             </a>
                         </div>
                     </div>
@@ -148,6 +218,15 @@
     .avatar-placeholder {
         border: 4px solid white;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .shadow-custom {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-green);
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
     }
 </style>
 {% endblock %}

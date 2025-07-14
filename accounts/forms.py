@@ -1,20 +1,4 @@
 from django import forms
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile
-
-class UserRegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
-
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['bio', 'profile_picture'] 
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import UserProfile
@@ -32,12 +16,40 @@ class UserRegistrationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+        
+        # Add placeholders
+        self.fields['username'].widget.attrs['placeholder'] = 'Enter your username'
+        self.fields['email'].widget.attrs['placeholder'] = 'Enter your email'
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Enter your first name'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Enter your last name'
+        self.fields['password1'].widget.attrs['placeholder'] = 'Enter your password'
+        self.fields['password2'].widget.attrs['placeholder'] = 'Confirm your password'
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('This email is already registered.')
+        return email
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('bio', 'profile_picture')
         widgets = {
-            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Tell us about yourself...'}),
             'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
         }
+
+class CustomAuthenticationForm(forms.Form):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your username'
+        })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your password'
+        })
+    )

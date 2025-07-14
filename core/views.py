@@ -33,25 +33,24 @@ def contact(request):
 def search(request):
     query = request.GET.get('q', '')
     search_type = request.GET.get('type', 'all')
-    
-    results = []
+
+    articles = []
+    tips = []
     if query:
         if search_type == 'articles' or search_type == 'all':
-            articles = Article.objects.filter(
+            articles = list(Article.objects.filter(
                 Q(title__icontains=query) | Q(content__icontains=query)
-            )
-            results.extend(articles)
-        
+            ))
         if search_type == 'tips' or search_type == 'all':
-            tips = Tip.objects.filter(
+            tips = list(Tip.objects.filter(
                 Q(title__icontains=query) | Q(description__icontains=query)
-            )
-            results.extend(tips)
-    
+            ))
+
     context = {
         'query': query,
         'search_type': search_type,
-        'results': results,
+        'articles': articles,
+        'tips': tips,
     }
     return render(request, 'core/search.html', context)
 
