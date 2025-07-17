@@ -59,9 +59,6 @@
                                 <button class="btn btn-outline-danger btn-lg">
                                     <i class="fas fa-heart me-2"></i>Add to Favorites
                                 </button>
-                                <button class="btn btn-outline-primary btn-lg">
-                                    <i class="fas fa-share me-2"></i>Share Article
-                                </button>
                             </div>
                         {% endif %}
                     </div>
@@ -103,6 +100,25 @@
                                 </div>
                             </div>
                         </div>
+                        {% if user.is_authenticated and user == article.author %}
+                        <div class="card shadow-custom mb-4">
+                            <div class="card-header" style="background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-tools me-2"></i>Actions
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <a href="{% url 'article-update' article.pk %}" class="btn btn-outline-warning">
+                                        <i class="fas fa-edit me-2"></i>Edit Article
+                                    </a>
+                                    <a href="{% url 'article-delete' article.pk %}" class="btn btn-outline-danger">
+                                        <i class="fas fa-trash me-2"></i>Delete Article
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
