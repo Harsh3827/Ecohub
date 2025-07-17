@@ -2,21 +2,25 @@
 {% block content %}
 <!-- Hero Section -->
 <div class="hero-section"
-    style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%); color: white; padding: 4rem 0; position: relative; overflow: hidden;">
+    style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%); color: white; padding: 5rem 0; position: relative; overflow: hidden;">
     <div class="hero-bg"
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns=\"
-        http://www.w3.org/2000/svg\" viewBox=\"0 0 1000 100\" fill=\"rgba(255,255,255,0.1)\">
-        <polygon points=\"0,100 1000,20 1000,100\" /></svg>') no-repeat bottom center; background-size: cover;">
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1000 100\" fill=\"rgba(255,255,255,0.1)\"><polygon points=\"0,100 1000,20 1000,100\" /></svg>') no-repeat bottom center; background-size: cover;">
+    </div>
+    <!-- Floating particles effect -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+        <div style="position: absolute; top: 20%; left: 10%; width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; animation: float 6s ease-in-out infinite;"></div>
+        <div style="position: absolute; top: 40%; right: 15%; width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; animation: float 8s ease-in-out infinite reverse;"></div>
+        <div style="position: absolute; bottom: 30%; left: 20%; width: 4px; height: 4px; background: rgba(255,255,255,0.4); border-radius: 50%; animation: float 5s ease-in-out infinite;"></div>
     </div>
     <div class="container position-relative">
         <div class="row align-items-center">
             <div class="col-lg-8">
-                <div class="hero-content">
-                    <h1 class="display-3 fw-bold mb-4">
-                        Welcome to <span style="color: var(--accent-green);">EcoHub</span>
+                <div class="hero-content" style="animation: fadeInUp 1s ease-out;">
+                    <h1 class="display-3 fw-bold mb-4" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                        Welcome to <span style="color: var(--accent-green); text-shadow: 0 0 20px rgba(110, 231, 183, 0.5);">EcoHub</span>
                     </h1>
-                    <p class="lead mb-4" style="font-size: 1.25rem; opacity: 0.95;">
-                        Your comprehensive guide to sustainable living and eco-friendly practices.
+                    <p class="lead mb-4" style="font-size: 1.3rem; opacity: 0.95; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+                        🌱 Your comprehensive guide to sustainable living and eco-friendly practices.
                         Discover articles, tips, and resources to help you live a more environmentally conscious life.
                     </p>
                     <div class="hero-stats mb-4">
@@ -302,4 +306,81 @@
         </div>
     </div>
 </div>
+<style>
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    .hero-content {
+        animation: fadeInUp 1s ease-out;
+    }
+    
+    .search-card {
+        animation: fadeInUp 1.2s ease-out;
+    }
+    
+    .card {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .stat-item {
+        transition: transform 0.3s ease;
+    }
+    
+    .stat-item:hover {
+        transform: scale(1.1);
+        animation: pulse 2s infinite;
+    }
+    
+    .hero-buttons .btn {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-buttons .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .hero-buttons .btn:hover::before {
+        left: 100%;
+    }
+    
+    .empty-state {
+        animation: fadeInUp 1.5s ease-out;
+    }
+    
+    .section-header {
+        animation: fadeInUp 1s ease-out;
+    }
+</style>
 {% endblock %}

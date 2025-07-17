@@ -18,14 +18,40 @@
                         <p class="text-muted">Share your sustainability insights with the community</p>
                     </div>
 
+                    <!-- Display Messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
+                        <!-- Display form errors -->
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
                         <div class="mb-4">
                             <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                <i class="fas fa-heading me-2"></i>Article Title
+                                <i class="fas fa-heading me-2"></i>Article Title *
                             </label>
                             {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.title.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             {% if form.title.help_text %}
                                 <div class="form-text">{{ form.title.help_text }}</div>
                             {% endif %}
@@ -33,9 +59,16 @@
 
                         <div class="mb-4">
                             <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                <i class="fas fa-tag me-2"></i>Category
+                                <i class="fas fa-tag me-2"></i>Category *
                             </label>
                             {{ form.category }}
+                            {% if form.category.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.category.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="mb-4">
@@ -43,6 +76,13 @@
                                 <i class="fas fa-image me-2"></i>Featured Image (Optional)
                             </label>
                             {{ form.image }}
+                            {% if form.image.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.image.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             {% if form.image.help_text %}
                                 <div class="form-text">{{ form.image.help_text }}</div>
                             {% endif %}
@@ -50,9 +90,16 @@
 
                         <div class="mb-4">
                             <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                <i class="fas fa-align-left me-2"></i>Content
+                                <i class="fas fa-align-left me-2"></i>Content *
                             </label>
                             {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.content.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             {% if form.content.help_text %}
                                 <div class="form-text">{{ form.content.help_text }}</div>
                             {% endif %}

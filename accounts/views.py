@@ -1,53 +1,96 @@
 # NOTE: Create a 'templates/accounts/' directory in this app for authentication templates (register, login, profile, password reset, etc.)
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from .forms import UserRegistrationForm, UserProfileForm
-from .models import UserProfile
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from .forms import UserRegistrationForm, UserProfileForm, CustomAuthenticationForm
+from .models import UserProfile
 
-# User Registration View
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            UserProfile.objects.create(user=user)
-            login(request, user)
-            messages.success(request, 'Registration successful!')
-            return redirect('home')
+            try:
+                user = form.save(commit=False)
+                user.save()
+                
+                # Create user profile
+                UserProfile.objects.create(user=user)
+                
+                # Log the user in
+                login(request, user)
+                messages.success(request, f'Welcome to EcoHub, {user.first_name}! Your account has been created successfully.')
+                return redirect('home')
+            except Exception as e:
+                messages.error(request, 'An error occurred during registration. Please try again.')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = UserRegistrationForm()
+    
     return render(request, 'accounts/register.html', {'form': form})
 
-# User Login View
 def user_login(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request.POST)
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            
+            if user is not None:
+                login(request, user)
+                messages.success(request, f'Welcome back, {user.first_name}!')
+                return redirect('home')
+            else:
+                messages.error(request, 'Invalid username or password.')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
+    
     return render(request, 'accounts/login.html', {'form': form})
 
-# User Logout View
 def user_logout(request):
-    logout(request)
+    if request.user.is_authenticated:
+        logout(request)
+        messages.success(request, 'You have been successfully logged out.')
     return redirect('home')
 
-# User Profile View
+def test_password_reset(request):
+    """Test view to verify password reset URLs are working"""
+    return render(request, 'accounts/test_password_reset.html', {
+        'password_reset_url': 'accounts:password_reset',
+        'password_reset_done_url': 'accounts:password_reset_done',
+        'password_reset_confirm_url': 'accounts:password_reset_confirm',
+        'password_reset_complete_url': 'accounts:password_reset_complete',
+    })
+
 @login_required
 def profile(request):
     user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+    
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Profile updated!')
+            messages.success(request, 'Your profile has been updated successfully!')
             return redirect('profile')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = UserProfileForm(instance=user_profile)
-    return render(request, 'accounts/profile.html', {'form': form})
+    
+    context = {
+        'form': form,
+        'user_profile': user_profile,
+        'user': request.user
+    }
+    return render(request, 'accounts/profile.html', context)

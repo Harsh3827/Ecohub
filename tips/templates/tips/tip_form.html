@@ -18,14 +18,40 @@
                         <p class="text-muted">Help others live more sustainably with your eco-friendly tip</p>
                     </div>
 
+                    <!-- Display Messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
+                        <!-- Display form errors -->
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
                         <div class="mb-4">
                             <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                <i class="fas fa-heading me-2"></i>Tip Title
+                                <i class="fas fa-heading me-2"></i>Tip Title *
                             </label>
                             {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.title.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             {% if form.title.help_text %}
                                 <div class="form-text">{{ form.title.help_text }}</div>
                             {% endif %}
@@ -33,16 +59,30 @@
 
                         <div class="mb-4">
                             <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                <i class="fas fa-tag me-2"></i>Category
+                                <i class="fas fa-tag me-2"></i>Category *
                             </label>
                             {{ form.category }}
+                            {% if form.category.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.category.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                <i class="fas fa-align-left me-2"></i>Description
+                                <i class="fas fa-align-left me-2"></i>Description *
                             </label>
                             {{ form.description }}
+                            {% if form.description.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.description.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             {% if form.description.help_text %}
                                 <div class="form-text">{{ form.description.help_text }}</div>
                             {% endif %}
@@ -53,6 +93,13 @@
                                 <i class="fas fa-paperclip me-2"></i>File Upload (Optional)
                             </label>
                             {{ form.file_upload }}
+                            {% if form.file_upload.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.file_upload.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             {% if form.file_upload.help_text %}
                                 <div class="form-text">{{ form.file_upload.help_text }}</div>
                             {% endif %}
