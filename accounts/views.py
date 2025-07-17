@@ -64,6 +64,15 @@ def user_logout(request):
         messages.success(request, 'You have been successfully logged out.')
     return redirect('home')
 
+def test_password_reset(request):
+    """Test view to verify password reset URLs are working"""
+    return render(request, 'accounts/test_password_reset.html', {
+        'password_reset_url': 'accounts:password_reset',
+        'password_reset_done_url': 'accounts:password_reset_done',
+        'password_reset_confirm_url': 'accounts:password_reset_confirm',
+        'password_reset_complete_url': 'accounts:password_reset_complete',
+    })
+
 @login_required
 def profile(request):
     user_profile, created = UserProfile.objects.get_or_create(user=request.user)

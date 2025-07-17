@@ -24,19 +24,54 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <!-- Display Messages -->
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <!-- Display form errors -->
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.non_field_errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-semibold" style="color: var(--text-dark);">
                                         <i class="fas fa-user me-2"></i>First Name
                                     </label>
-                                    <input type="text" class="form-control" placeholder="Your first name" required>
+                                    {{ form.first_name }}
+                                    {% if form.first_name.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.first_name.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-semibold" style="color: var(--text-dark);">
                                         <i class="fas fa-user me-2"></i>Last Name
                                     </label>
-                                    <input type="text" class="form-control" placeholder="Your last name" required>
+                                    {{ form.last_name }}
+                                    {% if form.last_name.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.last_name.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             
@@ -45,13 +80,27 @@
                                     <label class="form-label fw-semibold" style="color: var(--text-dark);">
                                         <i class="fas fa-envelope me-2"></i>Email Address
                                     </label>
-                                    <input type="email" class="form-control" placeholder="your.email@example.com" required>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.email.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-semibold" style="color: var(--text-dark);">
                                         <i class="fas fa-phone me-2"></i>Phone Number
                                     </label>
-                                    <input type="tel" class="form-control" placeholder="(555) 123-4567">
+                                    {{ form.phone }}
+                                    {% if form.phone.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.phone.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             
@@ -59,21 +108,28 @@
                                 <label class="form-label fw-semibold" style="color: var(--text-dark);">
                                     <i class="fas fa-tag me-2"></i>Subject
                                 </label>
-                                <select class="form-select" required>
-                                    <option value="">Choose a subject</option>
-                                    <option value="general">General Inquiry</option>
-                                    <option value="support">Technical Support</option>
-                                    <option value="collaboration">Collaboration</option>
-                                    <option value="feedback">Feedback</option>
-                                    <option value="bug">Bug Report</option>
-                                </select>
+                                {{ form.subject }}
+                                {% if form.subject.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.subject.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                             
                             <div class="mb-4">
                                 <label class="form-label fw-semibold" style="color: var(--text-dark);">
                                     <i class="fas fa-comment me-2"></i>Message
                                 </label>
-                                <textarea class="form-control" rows="6" placeholder="Tell us how we can help you..." required></textarea>
+                                {{ form.message }}
+                                {% if form.message.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.message.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                             
                             <button type="submit" class="btn btn-success btn-lg w-100">

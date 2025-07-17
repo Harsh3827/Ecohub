@@ -40,11 +40,10 @@
                                 </label>
                                 <select name="category" class="form-select form-select-lg" style="border-radius: 15px;">
                                     <option value="">All Categories</option>
-                                    <option value="renewable_energy" {% if request.GET.category == 'renewable_energy' %}selected{% endif %}>Renewable Energy</option>
-                                    <option value="sustainable_lifestyle" {% if request.GET.category == 'sustainable_lifestyle' %}selected{% endif %}>Sustainable Lifestyle</option>
-                                    <option value="green_technology" {% if request.GET.category == 'green_technology' %}selected{% endif %}>Green Technology</option>
-                                    <option value="environmental_conservation" {% if request.GET.category == 'environmental_conservation' %}selected{% endif %}>Environmental Conservation</option>
-                                    <option value="eco_friendly_products" {% if request.GET.category == 'eco_friendly_products' %}selected{% endif %}>Eco-Friendly Products</option>
+                                    <option value="energy" {% if request.GET.category == 'energy' %}selected{% endif %}>Renewable Energy</option>
+                                    <option value="lifestyle" {% if request.GET.category == 'lifestyle' %}selected{% endif %}>Green Lifestyle</option>
+                                    <option value="tech" {% if request.GET.category == 'tech' %}selected{% endif %}>Eco Technology</option>
+                                    <option value="news" {% if request.GET.category == 'news' %}selected{% endif %}>Sustainability News</option>
                                 </select>
                             </div>
                         </div>
@@ -62,14 +61,26 @@
         </div>
 
         <!-- Search Results -->
-        {% if request.GET.q %}
+        {% if request.GET.q or request.GET.type != 'all' or request.GET.category %}
         <div class="search-results">
             <div class="results-header mb-4" style="animation: fadeInLeft 0.8s ease-out;">
                 <h3 class="fw-bold" style="color: var(--text-dark);">
                     <i class="fas fa-list-ul me-2"></i>
-                    Search Results for "<span class="text-primary-green">{{ request.GET.q }}</span>"
+                    {% if request.GET.q %}
+                        Search Results for "<span class="text-primary-green">{{ request.GET.q }}</span>"
+                    {% else %}
+                        Filtered Results
+                    {% endif %}
                 </h3>
-                <p class="text-muted">Found {{ articles|length|add:tips|length }} result{{ articles|length|add:tips|length|pluralize }}</p>
+                <p class="text-muted">
+                    Found {{ articles|length|add:tips|length }} result{{ articles|length|add:tips|length|pluralize }}
+                    {% if request.GET.category %}
+                        in <span class="text-primary-green">{{ request.GET.category|title }}</span> category
+                    {% endif %}
+                    {% if request.GET.type != 'all' %}
+                        ({{ request.GET.type|title }} only)
+                    {% endif %}
+                </p>
             </div>
 
             <!-- Articles Results -->
@@ -78,11 +89,11 @@
                 <h4 class="section-title fw-bold mb-4" style="color: var(--text-dark); border-left: 4px solid var(--primary-green); padding-left: 1rem;">
                     <i class="fas fa-newspaper me-2"></i>Articles ({{ articles|length }})
                 </h4>
-                <div class="row">
+                <div class="row row-cols-1 row-cols-lg-2 g-4">
                     {% for article in articles %}
-                    <div class="col-lg-6 mb-4">
-                        <div class="result-card" style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border-left: 4px solid var(--primary-green);">
-                            <div class="result-content">
+                    <div class="col">
+                        <div class="result-card h-100" style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border-left: 4px solid var(--primary-green); display: flex; flex-direction: column;">
+                            <div class="result-content flex-grow-1 d-flex flex-column">
                                 <div class="result-meta mb-2">
                                     <span class="badge bg-success" style="border-radius: 15px; padding: 0.4rem 0.8rem;">
                                         <i class="fas fa-newspaper me-1"></i>Article
@@ -98,8 +109,8 @@
                                         {{ article.title }}
                                     </a>
                                 </h5>
-                                <p class="result-excerpt text-muted mb-3">{{ article.content|truncatewords:30 }}</p>
-                                <div class="result-footer d-flex align-items-center justify-content-between">
+                                <p class="result-excerpt text-muted mb-3 flex-grow-1">{{ article.content|truncatewords:30 }}</p>
+                                <div class="result-footer d-flex align-items-center justify-content-between mt-auto">
                                     <div class="author-info d-flex align-items-center">
                                         <div class="avatar-small" style="width: 25px; height: 25px; background: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; margin-right: 0.5rem;">
                                             {{ article.author.username|first|upper }}
@@ -124,11 +135,11 @@
                 <h4 class="section-title fw-bold mb-4" style="color: var(--text-dark); border-left: 4px solid #f59e0b; padding-left: 1rem;">
                     <i class="fas fa-lightbulb me-2"></i>Tips ({{ tips|length }})
                 </h4>
-                <div class="row">
+                <div class="row row-cols-1 row-cols-lg-2 g-4">
                     {% for tip in tips %}
-                    <div class="col-lg-6 mb-4">
-                        <div class="result-card" style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border-left: 4px solid #f59e0b;">
-                            <div class="result-content">
+                    <div class="col">
+                        <div class="result-card h-100" style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border-left: 4px solid #f59e0b; display: flex; flex-direction: column;">
+                            <div class="result-content flex-grow-1 d-flex flex-column">
                                 <div class="result-meta mb-2">
                                     <span class="badge bg-warning text-dark" style="border-radius: 15px; padding: 0.4rem 0.8rem;">
                                         <i class="fas fa-lightbulb me-1"></i>Tip
@@ -144,8 +155,8 @@
                                         {{ tip.title }}
                                     </a>
                                 </h5>
-                                <p class="result-excerpt text-muted mb-3">{{ tip.description|truncatewords:30 }}</p>
-                                <div class="result-footer d-flex align-items-center justify-content-between">
+                                <p class="result-excerpt text-muted mb-3 flex-grow-1">{{ tip.description|truncatewords:30 }}</p>
+                                <div class="result-footer d-flex align-items-center justify-content-between mt-auto">
                                     <div class="author-info d-flex align-items-center">
                                         <div class="avatar-small" style="width: 25px; height: 25px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; margin-right: 0.5rem;">
                                             {{ tip.user.username|first|upper }}
@@ -184,17 +195,176 @@
             {% endif %}
         </div>
         {% endif %}
+        
+        <!-- Browse All Content (when no filters applied) -->
+        {% if not request.GET.q and request.GET.type == 'all' and not request.GET.category %}
+        <div class="browse-all-section mt-5">
+            <div class="text-center mb-5">
+                <h3 class="fw-bold" style="color: var(--text-dark);">
+                    <i class="fas fa-th-large me-2"></i>Browse All Content
+                </h3>
+                <p class="text-muted">Explore our collection of articles and tips</p>
+            </div>
+            
+            <!-- Recent Articles -->
+            <div class="recent-articles mb-5">
+                <h4 class="section-title fw-bold mb-4" style="color: var(--text-dark); border-left: 4px solid var(--primary-green); padding-left: 1rem;">
+                    <i class="fas fa-newspaper me-2"></i>Recent Articles
+                </h4>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {% for article in articles|slice:":6" %}
+                    <div class="col">
+                        <div class="result-card h-100" style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border-left: 4px solid var(--primary-green); display: flex; flex-direction: column;">
+                            <div class="result-content flex-grow-1 d-flex flex-column">
+                                <div class="result-meta mb-2">
+                                    <span class="badge bg-success" style="border-radius: 15px; padding: 0.4rem 0.8rem;">
+                                        <i class="fas fa-newspaper me-1"></i>Article
+                                    </span>
+                                    {% if article.category %}
+                                    <span class="badge bg-light text-dark ms-2" style="border-radius: 15px; padding: 0.4rem 0.8rem;">
+                                        {{ article.get_category_display }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <h5 class="result-title fw-bold mb-2" style="color: var(--text-dark);">
+                                    <a href="{% url 'article-detail' article.pk %}" class="text-decoration-none" style="color: inherit;">
+                                        {{ article.title }}
+                                    </a>
+                                </h5>
+                                <p class="result-excerpt text-muted mb-3 flex-grow-1">{{ article.content|truncatewords:20 }}</p>
+                                <div class="result-footer d-flex align-items-center justify-content-between mt-auto">
+                                    <div class="author-info d-flex align-items-center">
+                                        <div class="avatar-small" style="width: 25px; height: 25px; background: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; margin-right: 0.5rem;">
+                                            {{ article.author.username|first|upper }}
+                                        </div>
+                                        <small class="text-muted">{{ article.author.username }} • {{ article.created_at|date:"M d, Y" }}</small>
+                                    </div>
+                                    <a href="{% url 'article-detail' article.pk %}" class="btn btn-sm btn-outline-primary" style="border-radius: 15px;">
+                                        Read More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'article-list' %}" class="btn btn-outline-success" style="border-radius: 25px;">
+                        <i class="fas fa-newspaper me-2"></i>View All Articles
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Recent Tips -->
+            <div class="recent-tips">
+                <h4 class="section-title fw-bold mb-4" style="color: var(--text-dark); border-left: 4px solid #f59e0b; padding-left: 1rem;">
+                    <i class="fas fa-lightbulb me-2"></i>Recent Tips
+                </h4>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {% for tip in tips|slice:":6" %}
+                    <div class="col">
+                        <div class="result-card h-100" style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border-left: 4px solid #f59e0b; display: flex; flex-direction: column;">
+                            <div class="result-content flex-grow-1 d-flex flex-column">
+                                <div class="result-meta mb-2">
+                                    <span class="badge bg-warning text-dark" style="border-radius: 15px; padding: 0.4rem 0.8rem;">
+                                        <i class="fas fa-lightbulb me-1"></i>Tip
+                                    </span>
+                                    {% if tip.file_upload %}
+                                    <span class="badge bg-info text-white ms-2" style="border-radius: 15px; padding: 0.4rem 0.8rem;">
+                                        <i class="fas fa-paperclip me-1"></i>Attachment
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <h5 class="result-title fw-bold mb-2" style="color: var(--text-dark);">
+                                    <a href="{% url 'tip-detail' tip.pk %}" class="text-decoration-none" style="color: inherit;">
+                                        {{ tip.title }}
+                                    </a>
+                                </h5>
+                                <p class="result-excerpt text-muted mb-3 flex-grow-1">{{ tip.description|truncatewords:20 }}</p>
+                                <div class="result-footer d-flex align-items-center justify-content-between mt-auto">
+                                    <div class="author-info d-flex align-items-center">
+                                        <div class="avatar-small" style="width: 25px; height: 25px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; margin-right: 0.5rem;">
+                                            {{ tip.user.username|first|upper }}
+                                        </div>
+                                        <small class="text-muted">{{ tip.user.username }} • {{ tip.created_at|date:"M d, Y" }}</small>
+                                    </div>
+                                    <a href="{% url 'tip-detail' tip.pk %}" class="btn btn-sm btn-outline-warning" style="border-radius: 15px;">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'tip-list' %}" class="btn btn-outline-warning" style="border-radius: 25px;">
+                        <i class="fas fa-lightbulb me-2"></i>View All Tips
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 
 <style>
+    .result-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
     .result-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
     }
     
+    .result-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    .result-excerpt {
+        flex-grow: 1;
+        min-height: 60px;
+    }
+    
+    .result-footer {
+        margin-top: auto;
+    }
+    
     .result-title a:hover {
         color: var(--primary-green) !important;
+    }
+    
+    /* Ensure equal height cards in rows */
+    .row-cols-1 > * {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .row-cols-md-2 > * {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .row-cols-lg-2 > * {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .row-cols-lg-3 > * {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .result-card {
+            margin-bottom: 1rem;
+        }
     }
     
     @keyframes fadeInDown {
