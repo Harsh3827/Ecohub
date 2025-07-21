@@ -126,7 +126,7 @@
                     </div>
 
                     <!-- Actions -->
-                    {% if user.is_authenticated %}
+                    {% if user.is_authenticated and tip.user == user %}
                     <div class="card shadow-custom mb-4">
                         <div class="card-header" style="background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);">
                             <h5 class="mb-0">
@@ -135,20 +135,12 @@
                         </div>
                         <div class="card-body">
                             <div class="d-grid gap-2">
-                                <button class="btn btn-outline-success">
-                                    <i class="fas fa-thumbs-up me-2"></i>Helpful
-                                </button>
-                                <button class="btn btn-outline-primary">
-                                    <i class="fas fa-share me-2"></i>Share Tip
-                                </button>
-                                {% if tip.user == user %}
                                 <a href="{% url 'tip-update' tip.pk %}" class="btn btn-outline-warning">
                                     <i class="fas fa-edit me-2"></i>Edit Tip
                                 </a>
                                 <a href="{% url 'tip-delete' tip.pk %}" class="btn btn-outline-danger">
                                     <i class="fas fa-trash me-2"></i>Delete Tip
                                 </a>
-                                {% endif %}
                             </div>
                         </div>
                     </div>
