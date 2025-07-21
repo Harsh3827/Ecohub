@@ -82,6 +82,60 @@
             </div>
         </div>
 
+        <!-- My Uploaded Content -->
+        <div class="my-uploads-section mb-5">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow-custom">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-newspaper me-2"></i>My Articles</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if my_articles %}
+                                <ul class="list-group list-group-flush">
+                                    {% for article in my_articles %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ article.title }}</strong><br>
+                                            <small class="text-muted">{{ article.created_at|date:"F d, Y" }}</small>
+                                        </div>
+                                        <a href="{% url 'article-detail' article.pk %}" class="btn btn-outline-primary btn-sm">View</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="text-muted mb-0">You haven't uploaded any articles yet.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow-custom">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>My Tips</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if my_tips %}
+                                <ul class="list-group list-group-flush">
+                                    {% for tip in my_tips %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ tip.title }}</strong><br>
+                                            <small class="text-muted">{{ tip.created_at|date:"F d, Y" }}</small>
+                                        </div>
+                                        <a href="{% url 'tip-detail' tip.pk %}" class="btn btn-outline-warning btn-sm">View</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="text-muted mb-0">You haven't uploaded any tips yet.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Recent Activity -->
         <div class="recent-activity mb-5">
             <div class="section-header mb-4">

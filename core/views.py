@@ -117,7 +117,11 @@ def search(request):
 @login_required
 def user_history(request):
     visits = request.session.get('visits', 0)
+    my_articles = request.user.article_set.all().order_by('-created_at')
+    my_tips = request.user.tip_set.all().order_by('-created_at')
     context = {
         'visits': visits,
+        'my_articles': my_articles,
+        'my_tips': my_tips,
     }
     return render(request, 'core/user_history.html', context)
