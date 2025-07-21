@@ -59,7 +59,7 @@ EcoHub is your comprehensive guide to sustainable living. The platform enables u
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
+   git clone https://github.com/Harsh3827/Ecohub
    cd Project
    ```
 
