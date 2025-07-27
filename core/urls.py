@@ -7,4 +7,7 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('search/', views.search, name='search'),
     path('history/', views.user_history, name='user-history'),
+    
+    # FAQ URLs
+    path('faq/', views.faq, name='faq'),
 ]

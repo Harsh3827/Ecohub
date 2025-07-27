@@ -98,8 +98,8 @@
                             <div class="col-md-3">
                                 <select name="type" class="form-select form-select-lg" style="border-radius: 15px;">
                                     <option value="all">All Content</option>
-                                    <option value="articles">Articles</option>
-                                    <option value="tips">Tips</option>
+                                    <option value="articles">Articles Only</option>
+                                    <option value="tips">Tips Only</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -115,172 +115,124 @@
     </div>
 </div>
 
-<!-- Recent Articles -->
-<div class="content-section py-5">
+<!-- Recent Content Section -->
+<div class="recent-content py-5">
     <div class="container">
         <div class="section-header text-center mb-5">
             <h2 class="display-5 fw-bold mb-3" style="color: var(--text-dark);">
-                <i class="fas fa-newspaper me-3 text-primary-green"></i>
-                Latest Articles
+                <i class="fas fa-clock me-3 text-success"></i>
+                Latest from Our Community
             </h2>
-            <p class="lead text-muted">Stay informed with our latest sustainability articles and insights</p>
+            <p class="lead text-muted">Discover the most recent articles and tips shared by our eco-conscious community</p>
         </div>
-        <div class="row">
-            {% for article in recent_articles %}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100 shadow-custom">
-                    {% if article.image %}
-                    <div class="card-img-container" style="position: relative; overflow: hidden;">
-                        <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
-                        <div class="card-overlay" style="position: absolute; top: 10px; right: 10px;">
-                            <span class="badge bg-success" style="border-radius: 20px; padding: 0.5rem 1rem;">
-                                <i class="fas fa-leaf me-1"></i>{{ article.category|title }}
-                            </span>
-                        </div>
-                    </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold mb-3">{{ article.title }}</h5>
-                        <p class="card-text text-muted mb-3">{{ article.content|truncatewords:20 }}</p>
-                        <div class="article-meta mb-3">
-                            <div class="d-flex align-items-center text-muted">
-                                <i class="fas fa-user me-2"></i>
-                                <span>{{ article.author.username }}</span>
-                                <span class="mx-2">•</span>
-                                <i class="fas fa-calendar me-2"></i>
-                                <span>{{ article.created_at|date:"M d, Y" }}</span>
-                            </div>
-                        </div>
-                        <a href="{% url 'article-detail' article.pk %}" class="btn btn-primary w-100">
-                            <i class="fas fa-arrow-right me-2"></i>Read More
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="col-12">
-                <div class="empty-state text-center py-5">
-                    <i class="fas fa-newspaper fa-4x text-muted mb-4"></i>
-                    <h4 class="text-muted mb-3">No articles yet</h4>
-                    <p class="text-muted mb-4">Be the first to share your sustainability insights!</p>
-                    <a href="{% url 'article-create' %}" class="btn btn-success btn-lg">
-                        <i class="fas fa-plus me-2"></i>Share First Article
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="text-center mt-4">
-            <a href="{% url 'article-list' %}" class="btn btn-outline-success btn-lg">
-                <i class="fas fa-th-list me-2"></i>View All Articles
-            </a>
-        </div>
-    </div>
-</div>
 
-<!-- Recent Tips -->
-<div class="content-section py-5" style="background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);">
-    <div class="container">
-        <div class="section-header text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3" style="color: var(--text-dark);">
-                <i class="fas fa-lightbulb me-3 text-primary-green"></i>
-                Eco-Friendly Tips
-            </h2>
-            <p class="lead text-muted">Practical tips to help you live more sustainably every day</p>
-        </div>
         <div class="row">
-            {% for tip in recent_tips %}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100 shadow-custom">
-                    <div class="card-body">
-                        <div class="tip-icon mb-3">
-                            <i class="fas fa-lightbulb fa-2x text-warning"></i>
-                        </div>
-                        <h5 class="card-title fw-bold mb-3">{{ tip.title }}</h5>
-                        <p class="card-text text-muted mb-3">{{ tip.description|truncatewords:20 }}</p>
-                        <div class="tip-meta mb-3">
-                            <div class="d-flex align-items-center text-muted mb-2">
-                                <i class="fas fa-user me-2"></i>
-                                <span>{{ tip.user.username }}</span>
-                                <span class="mx-2">•</span>
-                                <i class="fas fa-calendar me-2"></i>
-                                <span>{{ tip.created_at|date:"M d, Y" }}</span>
-                            </div>
-                            {% if tip.file_upload %}
-                            <div class="attachment-indicator">
-                                <i class="fas fa-paperclip me-2 text-info"></i>
-                                <small class="text-info">Has attachment</small>
-                            </div>
-                            {% endif %}
-                        </div>
-                        <a href="{% url 'tip-detail' tip.pk %}" class="btn btn-primary w-100">
-                            <i class="fas fa-eye me-2"></i>View Details
-                        </a>
+            <!-- Recent Articles -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-custom border-0 h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">
+                            <i class="fas fa-newspaper me-2"></i>
+                            Recent Articles
+                        </h4>
                     </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="col-12">
-                <div class="empty-state text-center py-5">
-                    <i class="fas fa-lightbulb fa-4x text-muted mb-4"></i>
-                    <h4 class="text-muted mb-3">No tips yet</h4>
-                    <p class="text-muted mb-4">Share your first eco-friendly tip with the community!</p>
-                    <a href="{% url 'tip-create' %}" class="btn btn-success btn-lg">
-                        <i class="fas fa-plus me-2"></i>Share First Tip
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="text-center mt-4">
-            <a href="{% url 'tip-list' %}" class="btn btn-outline-success btn-lg">
-                <i class="fas fa-th-list me-2"></i>View All Tips
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- User Stats (if logged in) -->
-{% if user.is_authenticated %}
-<div class="user-stats py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="stats-card"
-                    style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%); color: white; border-radius: 20px; padding: 2rem; text-align: center;">
-                    <div class="stats-content">
-                        <h3 class="mb-3">
-                            <i class="fas fa-chart-line me-2"></i>
-                            Your EcoHub Activity
-                        </h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="stat-item">
-                                    <div class="stat-number display-4 fw-bold mb-2">{{ visits }}</div>
-                                    <div class="stat-label">Total Visits</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="stat-item">
-                                    <div class="stat-number display-4 fw-bold mb-2">
-                                        <i class="fas fa-fire"></i>
+                    <div class="card-body">
+                        {% if recent_articles %}
+                            <div class="list-group list-group-flush">
+                                {% for article in recent_articles %}
+                                <div class="list-group-item border-0 px-0">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1 fw-bold">
+                                                <a href="{% url 'article-detail' article.pk %}" class="text-decoration-none">
+                                                    {{ article.title }}
+                                                </a>
+                                            </h6>
+                                            <p class="text-muted mb-1">{{ article.content|truncatewords:15 }}</p>
+                                            <small class="text-muted">
+                                                <i class="fas fa-user me-1"></i>{{ article.author.username }} •
+                                                <i class="fas fa-calendar me-1"></i>{{ article.created_at|date:"M d, Y" }}
+                                            </small>
+                                        </div>
                                     </div>
-                                    <div class="stat-label">Eco Warrior</div>
                                 </div>
+                                {% endfor %}
                             </div>
-                        </div>
-                        <div class="mt-4">
-                            <a href="{% url 'user-history' %}" class="btn btn-light btn-lg">
-                                <i class="fas fa-history me-2"></i>View Your History
-                            </a>
-                        </div>
+                            <div class="text-center mt-3">
+                                <a href="{% url 'article-list' %}" class="btn btn-outline-primary">
+                                    <i class="fas fa-arrow-right me-2"></i>View All Articles
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">No articles yet</h5>
+                                <p class="text-muted">Be the first to share an eco-friendly article!</p>
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'article-create' %}" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Create Article
+                                </a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Tips -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-custom border-0 h-100">
+                    <div class="card-header bg-warning text-dark">
+                        <h4 class="mb-0">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Recent Tips
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_tips %}
+                            <div class="list-group list-group-flush">
+                                {% for tip in recent_tips %}
+                                <div class="list-group-item border-0 px-0">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1 fw-bold">
+                                                <a href="{% url 'tip-detail' tip.pk %}" class="text-decoration-none">
+                                                    {{ tip.title }}
+                                                </a>
+                                            </h6>
+                                            <p class="text-muted mb-1">{{ tip.description|truncatewords:15 }}</p>
+                                            <small class="text-muted">
+                                                <i class="fas fa-user me-1"></i>{{ tip.user.username }} •
+                                                <i class="fas fa-calendar me-1"></i>{{ tip.created_at|date:"M d, Y" }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="text-center mt-3">
+                                <a href="{% url 'tip-list' %}" class="btn btn-outline-warning">
+                                    <i class="fas fa-arrow-right me-2"></i>View All Tips
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="fas fa-lightbulb fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">No tips yet</h5>
+                                <p class="text-muted">Share your first eco-friendly tip!</p>
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'tip-create' %}" class="btn btn-warning">
+                                    <i class="fas fa-plus me-2"></i>Create Tip
+                                </a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endif %}
 
 <!-- Call to Action -->
 <div class="cta-section py-5"

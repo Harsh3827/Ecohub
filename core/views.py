@@ -6,7 +6,8 @@ from tips.models import Tip
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import ContactForm
+from .forms import ContactForm, FAQForm
+from .models import FAQ
 
 # Create your views here.
 
@@ -169,3 +170,20 @@ def user_history(request):
         'recent_activities': recent_activities,
     }
     return render(request, 'core/user_history.html', context)
+
+# FAQ Views
+def faq(request):
+    faqs = FAQ.objects.filter(is_active=True).order_by('order', 'question')
+    
+    # Group FAQs by category
+    faq_categories = {}
+    for faq_item in faqs:
+        category = faq_item.category
+        if category not in faq_categories:
+            faq_categories[category] = []
+        faq_categories[category].append(faq_item)
+    
+    context = {
+        'faq_categories': faq_categories,
+    }
+    return render(request, 'core/faq.html', context)

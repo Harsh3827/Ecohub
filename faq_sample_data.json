@@ -1,0 +1,167 @@
+[
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "What is EcoHub?",
+            "answer": "EcoHub is a comprehensive platform dedicated to promoting sustainable living and eco-friendly practices. We provide articles, tips, and resources to help individuals make environmentally conscious choices in their daily lives.",
+            "category": "General",
+            "is_active": true,
+            "order": 1,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "How do I create an account?",
+            "answer": "To create an account, click on the \"Register\" button in the navigation bar. Fill in your details including username, email, and password. Once registered, you can log in and start contributing articles and tips.",
+            "category": "Account",
+            "is_active": true,
+            "order": 1,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "How do I reset my password?",
+            "answer": "If you forgot your password, click on the \"Login\" button and then click \"Forgot Password?\" on the login page. Enter your email address and follow the instructions sent to your email to reset your password.",
+            "category": "Account",
+            "is_active": true,
+            "order": 2,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "How do I submit an article?",
+            "answer": "To submit an article, first log in to your account. Then click on \"Articles\" in the navigation and select \"Create New Article\". Fill in the title, content, and category, then click \"Submit\". Your article will be published immediately.",
+            "category": "Articles",
+            "is_active": true,
+            "order": 1,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "What makes a good eco-friendly article?",
+            "answer": "A good eco-friendly article should be informative, well-researched, and provide practical tips that readers can implement. Include specific examples, statistics when possible, and actionable steps. Focus on topics like recycling, energy conservation, sustainable living, and environmental awareness.",
+            "category": "Articles",
+            "is_active": true,
+            "order": 2,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "How do I submit a tip?",
+            "answer": "To submit a tip, log in to your account and go to the \"Tips\" section. Click on \"Create New Tip\" and fill in the title, description, and category. Tips should be concise, practical, and easy to implement.",
+            "category": "Tips",
+            "is_active": true,
+            "order": 1,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "What types of tips are accepted?",
+            "answer": "We accept tips related to sustainable living, recycling, energy conservation, water saving, eco-friendly products, green transportation, waste reduction, and any other environmentally conscious practices. Tips should be practical and actionable.",
+            "category": "Tips",
+            "is_active": true,
+            "order": 2,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "How do I add articles to my favorites?",
+            "answer": "To add an article to your favorites, simply click the \"Add to Favorites\" button on any article page. You can view all your favorite articles by going to your profile or the \"My Favorites\" section.",
+            "category": "General",
+            "is_active": true,
+            "order": 2,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "Can I edit or delete my posts?",
+            "answer": "Yes, you can edit or delete your own articles and tips. Look for the \"Edit\" and \"Delete\" buttons on your posts. You cannot edit or delete content created by other users.",
+            "category": "General",
+            "is_active": true,
+            "order": 3,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "How do I contact support?",
+            "answer": "You can contact our support team by clicking on the \"Contact\" link in the navigation bar. Fill out the contact form with your question or concern, and we will get back to you as soon as possible.",
+            "category": "Technical",
+            "is_active": true,
+            "order": 1,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "Is my personal information secure?",
+            "answer": "Yes, we take your privacy seriously. Your personal information is encrypted and stored securely. We never share your personal data with third parties without your explicit consent.",
+            "category": "Account",
+            "is_active": true,
+            "order": 3,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "How can I contribute to the community?",
+            "answer": "You can contribute by sharing articles, tips, and comments. Engage with other users by commenting on their posts, adding content to your favorites, and participating in community discussions. Your contributions help make EcoHub a valuable resource for everyone.",
+            "category": "General",
+            "is_active": true,
+            "order": 4,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "What are the benefits of sustainable living?",
+            "answer": "Sustainable living helps reduce your environmental impact, saves money on utilities, improves your health, and contributes to a better future for generations to come. It includes practices like reducing waste, conserving energy, using eco-friendly products, and supporting local businesses.",
+            "category": "General",
+            "is_active": true,
+            "order": 5,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "How do I search for specific content?",
+            "answer": "Use the search bar in the navigation to find articles and tips. You can search by keywords, titles, or content. You can also filter by content type (articles or tips) and categories to narrow down your results.",
+            "category": "Technical",
+            "is_active": true,
+            "order": 2,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "fields": {
+            "question": "Can I comment on articles and tips?",
+            "answer": "Yes, you can comment on articles to share your thoughts, ask questions, or provide additional information. Comments help create a community discussion and can provide valuable insights to other users.",
+            "category": "General",
+            "is_active": true,
+            "order": 6,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    }
+] 
