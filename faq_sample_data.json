@@ -1,9 +1,10 @@
 [
     {
         "model": "core.faq",
+        "pk": 1,
         "fields": {
             "question": "What is EcoHub?",
-            "answer": "EcoHub is a comprehensive platform dedicated to promoting sustainable living and eco-friendly practices. We provide articles, tips, and resources to help individuals make environmentally conscious choices in their daily lives.",
+            "answer": "EcoHub is a comprehensive platform dedicated to sustainable living and eco-friendly practices. We provide articles, tips, and resources to help you live a more environmentally conscious life.",
             "category": "General",
             "is_active": true,
             "order": 1,
@@ -12,9 +13,10 @@
     },
     {
         "model": "core.faq",
+        "pk": 2,
         "fields": {
             "question": "How do I create an account?",
-            "answer": "To create an account, click on the \"Register\" button in the navigation bar. Fill in your details including username, email, and password. Once registered, you can log in and start contributing articles and tips.",
+            "answer": "To create an account, click on the 'Register' button in the top navigation. Fill in your details including username, email, and password. You'll receive a confirmation email to verify your account.",
             "category": "Account",
             "is_active": true,
             "order": 1,
@@ -23,20 +25,10 @@
     },
     {
         "model": "core.faq",
+        "pk": 3,
         "fields": {
-            "question": "How do I reset my password?",
-            "answer": "If you forgot your password, click on the \"Login\" button and then click \"Forgot Password?\" on the login page. Enter your email address and follow the instructions sent to your email to reset your password.",
-            "category": "Account",
-            "is_active": true,
-            "order": 2,
-            "created_at": "2024-01-01T00:00:00Z"
-        }
-    },
-    {
-        "model": "core.faq",
-        "fields": {
-            "question": "How do I submit an article?",
-            "answer": "To submit an article, first log in to your account. Then click on \"Articles\" in the navigation and select \"Create New Article\". Fill in the title, content, and category, then click \"Submit\". Your article will be published immediately.",
+            "question": "How can I share an article?",
+            "answer": "After logging in, click on 'Share Article' from the navigation or homepage. Fill in the article title, content, category, and optionally upload an image. Click 'Create Article' to publish.",
             "category": "Articles",
             "is_active": true,
             "order": 1,
@@ -45,20 +37,10 @@
     },
     {
         "model": "core.faq",
+        "pk": 4,
         "fields": {
-            "question": "What makes a good eco-friendly article?",
-            "answer": "A good eco-friendly article should be informative, well-researched, and provide practical tips that readers can implement. Include specific examples, statistics when possible, and actionable steps. Focus on topics like recycling, energy conservation, sustainable living, and environmental awareness.",
-            "category": "Articles",
-            "is_active": true,
-            "order": 2,
-            "created_at": "2024-01-01T00:00:00Z"
-        }
-    },
-    {
-        "model": "core.faq",
-        "fields": {
-            "question": "How do I submit a tip?",
-            "answer": "To submit a tip, log in to your account and go to the \"Tips\" section. Click on \"Create New Tip\" and fill in the title, description, and category. Tips should be concise, practical, and easy to implement.",
+            "question": "How do I share eco-friendly tips?",
+            "answer": "Log in to your account and click on 'Share Tip' from the navigation. Provide a title, description, and optionally attach a file. Your tip will be visible to the community once published.",
             "category": "Tips",
             "is_active": true,
             "order": 1,
@@ -67,10 +49,11 @@
     },
     {
         "model": "core.faq",
+        "pk": 5,
         "fields": {
-            "question": "What types of tips are accepted?",
-            "answer": "We accept tips related to sustainable living, recycling, energy conservation, water saving, eco-friendly products, green transportation, waste reduction, and any other environmentally conscious practices. Tips should be practical and actionable.",
-            "category": "Tips",
+            "question": "Can I edit my published content?",
+            "answer": "Yes, you can edit your own articles and tips. Look for the 'Edit' button on your published content. Only the author can edit their own posts to maintain content integrity.",
+            "category": "Articles",
             "is_active": true,
             "order": 2,
             "created_at": "2024-01-01T00:00:00Z"
@@ -78,21 +61,11 @@
     },
     {
         "model": "core.faq",
+        "pk": 6,
         "fields": {
-            "question": "How do I add articles to my favorites?",
-            "answer": "To add an article to your favorites, simply click the \"Add to Favorites\" button on any article page. You can view all your favorite articles by going to your profile or the \"My Favorites\" section.",
-            "category": "General",
-            "is_active": true,
-            "order": 2,
-            "created_at": "2024-01-01T00:00:00Z"
-        }
-    },
-    {
-        "model": "core.faq",
-        "fields": {
-            "question": "Can I edit or delete my posts?",
-            "answer": "Yes, you can edit or delete your own articles and tips. Look for the \"Edit\" and \"Delete\" buttons on your posts. You cannot edit or delete content created by other users.",
-            "category": "General",
+            "question": "How do I add articles to favorites?",
+            "answer": "When viewing an article, click the 'Add to Favorites' button. You can view all your favorite articles by clicking on 'My Favorites' in your profile or navigation menu.",
+            "category": "Articles",
             "is_active": true,
             "order": 3,
             "created_at": "2024-01-01T00:00:00Z"
@@ -100,9 +73,22 @@
     },
     {
         "model": "core.faq",
+        "pk": 7,
         "fields": {
-            "question": "How do I contact support?",
-            "answer": "You can contact our support team by clicking on the \"Contact\" link in the navigation bar. Fill out the contact form with your question or concern, and we will get back to you as soon as possible.",
+            "question": "How do I search for content?",
+            "answer": "Use the search bar on the homepage or visit the dedicated search page. You can search by keywords and filter by content type (articles, tips, or all content) and categories.",
+            "category": "General",
+            "is_active": true,
+            "order": 2,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "pk": 8,
+        "fields": {
+            "question": "What file types can I upload?",
+            "answer": "For article images, we support JPG, PNG, and GIF formats. For tip attachments, you can upload PDF, DOC, DOCX, and image files. Maximum file size is 5MB.",
             "category": "Technical",
             "is_active": true,
             "order": 1,
@@ -111,9 +97,22 @@
     },
     {
         "model": "core.faq",
+        "pk": 9,
         "fields": {
-            "question": "Is my personal information secure?",
-            "answer": "Yes, we take your privacy seriously. Your personal information is encrypted and stored securely. We never share your personal data with third parties without your explicit consent.",
+            "question": "How do I reset my password?",
+            "answer": "Click on 'Login' and then 'Forgot Password?' Enter your email address. You'll receive a password reset link via email. Click the link to set a new password.",
+            "category": "Account",
+            "is_active": true,
+            "order": 2,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "pk": 10,
+        "fields": {
+            "question": "Can I delete my account?",
+            "answer": "Currently, account deletion is not available through the website interface. Please contact our support team if you need to delete your account and associated data.",
             "category": "Account",
             "is_active": true,
             "order": 3,
@@ -122,10 +121,11 @@
     },
     {
         "model": "core.faq",
+        "pk": 11,
         "fields": {
-            "question": "How can I contribute to the community?",
-            "answer": "You can contribute by sharing articles, tips, and comments. Engage with other users by commenting on their posts, adding content to your favorites, and participating in community discussions. Your contributions help make EcoHub a valuable resource for everyone.",
-            "category": "General",
+            "question": "How do I update my profile?",
+            "answer": "Click on your username in the navigation to access your profile. You can update your bio, profile picture, and phone number. Click 'Save Changes' to update your profile.",
+            "category": "Account",
             "is_active": true,
             "order": 4,
             "created_at": "2024-01-01T00:00:00Z"
@@ -133,20 +133,34 @@
     },
     {
         "model": "core.faq",
+        "pk": 12,
         "fields": {
-            "question": "What are the benefits of sustainable living?",
-            "answer": "Sustainable living helps reduce your environmental impact, saves money on utilities, improves your health, and contributes to a better future for generations to come. It includes practices like reducing waste, conserving energy, using eco-friendly products, and supporting local businesses.",
-            "category": "General",
+            "question": "What are the article categories?",
+            "answer": "We have several categories including Renewable Energy, Green Lifestyle, Eco Technology, and Sustainability News. Choose the most appropriate category when publishing your article.",
+            "category": "Articles",
             "is_active": true,
-            "order": 5,
+            "order": 4,
             "created_at": "2024-01-01T00:00:00Z"
         }
     },
     {
         "model": "core.faq",
+        "pk": 13,
         "fields": {
-            "question": "How do I search for specific content?",
-            "answer": "Use the search bar in the navigation to find articles and tips. You can search by keywords, titles, or content. You can also filter by content type (articles or tips) and categories to narrow down your results.",
+            "question": "How do I contact support?",
+            "answer": "You can contact us through the 'Contact' page. Fill out the contact form with your name, email, subject, and message. We'll respond to your inquiry within 24-48 hours.",
+            "category": "General",
+            "is_active": true,
+            "order": 3,
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.faq",
+        "pk": 14,
+        "fields": {
+            "question": "Is my data secure?",
+            "answer": "Yes, we take data security seriously. All user data is encrypted and stored securely. We never share your personal information with third parties without your consent.",
             "category": "Technical",
             "is_active": true,
             "order": 2,
@@ -155,12 +169,13 @@
     },
     {
         "model": "core.faq",
+        "pk": 15,
         "fields": {
-            "question": "Can I comment on articles and tips?",
-            "answer": "Yes, you can comment on articles to share your thoughts, ask questions, or provide additional information. Comments help create a community discussion and can provide valuable insights to other users.",
-            "category": "General",
+            "question": "Can I comment on articles?",
+            "answer": "Yes, registered users can comment on articles. Simply scroll to the bottom of any article and use the comment form to share your thoughts and engage with the community.",
+            "category": "Articles",
             "is_active": true,
-            "order": 6,
+            "order": 5,
             "created_at": "2024-01-01T00:00:00Z"
         }
     }

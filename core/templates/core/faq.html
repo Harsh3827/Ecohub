@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="container py-5">
-    <!-- Header Section -->
     <div class="row mb-5">
         <div class="col-12 text-center">
             <h1 class="display-4 fw-bold mb-3" style="color: var(--text-dark);">
@@ -16,8 +15,6 @@
             </p>
         </div>
     </div>
-
-    <!-- FAQ Categories -->
     <div class="row">
         <div class="col-lg-8 mx-auto">
             {% if faq_categories %}
@@ -30,15 +27,14 @@
                         </h3>
                         <hr class="border-success" style="opacity: 0.3;">
                     </div>
-                    
                     <div class="accordion" id="accordion{{ forloop.counter }}">
                         {% for faq in faqs %}
                         <div class="accordion-item border-0 mb-3 shadow-sm">
                             <h2 class="accordion-header" id="heading{{ faq.id }}">
-                                <button class="accordion-button collapsed bg-white" type="button" 
-                                        data-bs-toggle="collapse" 
-                                        data-bs-target="#collapse{{ faq.id }}" 
-                                        aria-expanded="false" 
+                                <button class="accordion-button collapsed bg-white" type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ faq.id }}"
+                                        aria-expanded="false"
                                         aria-controls="collapse{{ faq.id }}">
                                     <div class="d-flex align-items-center">
                                         <i class="fas fa-question-circle me-3 text-success"></i>
@@ -46,9 +42,9 @@
                                     </div>
                                 </button>
                             </h2>
-                            <div id="collapse{{ faq.id }}" 
-                                 class="accordion-collapse collapse" 
-                                 aria-labelledby="heading{{ faq.id }}" 
+                            <div id="collapse{{ faq.id }}"
+                                 class="accordion-collapse collapse"
+                                 aria-labelledby="heading{{ faq.id }}"
                                  data-bs-parent="#accordion{{ forloop.counter }}">
                                 <div class="accordion-body bg-light">
                                     <div class="d-flex">
@@ -73,8 +69,6 @@
             {% endif %}
         </div>
     </div>
-
-    <!-- Help Section -->
     <div class="row mt-5">
         <div class="col-12">
             <div class="card shadow-custom border-0">
@@ -101,23 +95,19 @@
         </div>
     </div>
 </div>
-
 <style>
     .accordion-button:not(.collapsed) {
         background-color: #f8f9fa;
         color: var(--text-dark);
         box-shadow: none;
     }
-    
     .accordion-button:focus {
         box-shadow: none;
         border-color: rgba(16, 185, 129, 0.3);
     }
-    
     .accordion-button::after {
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2310b981'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
     }
-    
     .accordion-button:not(.collapsed)::after {
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2310b981'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
     }
