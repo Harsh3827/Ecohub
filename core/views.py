@@ -119,9 +119,53 @@ def user_history(request):
     visits = request.session.get('visits', 0)
     my_articles = request.user.article_set.all().order_by('-created_at')
     my_tips = request.user.tip_set.all().order_by('-created_at')
+    
+    # Create combined activity list sorted by date
+    activities = []
+    
+    # Add articles with type identifier
+    for article in my_articles:
+        activities.append({
+            'type': 'article',
+            'object': article,
+            'created_at': article.created_at,
+            'title': article.title,
+            'content': article.content,
+            'url': f'article-detail'
+        })
+    
+    # Add tips with type identifier
+    for tip in my_tips:
+        activities.append({
+            'type': 'tip',
+            'object': tip,
+            'created_at': tip.created_at,
+            'title': tip.title,
+            'content': tip.description,
+            'url': f'tip-detail'
+        })
+    
+    # Add comments with type identifier
+    for comment in request.user.comment_set.all():
+        activities.append({
+            'type': 'comment',
+            'object': comment,
+            'created_at': comment.created_at,
+            'title': comment.article.title,
+            'content': comment.content,
+            'url': f'article-detail'
+        })
+    
+    # Sort all activities by created_at in descending order (newest first)
+    activities.sort(key=lambda x: x['created_at'], reverse=True)
+    
+    # Take only the first 10 most recent activities
+    recent_activities = activities[:10]
+    
     context = {
         'visits': visits,
         'my_articles': my_articles,
         'my_tips': my_tips,
+        'recent_activities': recent_activities,
     }
     return render(request, 'core/user_history.html', context)

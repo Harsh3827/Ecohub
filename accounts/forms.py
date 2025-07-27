@@ -34,10 +34,15 @@ class UserRegistrationForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('bio', 'profile_picture')
+        fields = ('bio', 'profile_picture', 'phone_number')
         widgets = {
             'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Tell us about yourself...'}),
             'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': '+1-123-456-7890',
+                'pattern': r'^\+?1?\d{9,15}$'
+            }),
         }
 
 class CustomAuthenticationForm(forms.Form):

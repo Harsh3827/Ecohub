@@ -90,23 +90,41 @@ def add_comment(request, pk):
 @login_required
 def toggle_favorite(request, pk):
     article = get_object_or_404(Article, pk=pk)
-    favorite, created = Favorite.objects.get_or_create(
-        user=request.user,
-        article=article
-    )
+    favorite, created = Favorite.objects.get_or_create(user=request.user, article=article)
     
-    if not created:
-        favorite.delete()
-        is_favorited = False
-        messages.success(request, 'Article removed from favorites.')
+    if created:
+        messages.success(request, f'"{article.title}" has been added to your favorites!')
     else:
-        is_favorited = True
-        messages.success(request, 'Article added to favorites!')
+        favorite.delete()
+        messages.success(request, f'"{article.title}" has been removed from your favorites!')
     
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return JsonResponse({
-            'is_favorited': is_favorited,
-            'favorites_count': article.favorite_set.count()
-        })
+    return redirect('article-detail', pk=pk)
+
+@login_required
+def add_to_favorites(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    favorite, created = Favorite.objects.get_or_create(user=request.user, article=article)
     
-    return redirect('article-detail', pk=article.pk)
+    if created:
+        messages.success(request, f'"{article.title}" has been added to your favorites!')
+    else:
+        messages.info(request, f'"{article.title}" is already in your favorites!')
+    
+    return redirect('article-detail', pk=article_id)
+
+@login_required
+def remove_from_favorites(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    try:
+        favorite = Favorite.objects.get(user=request.user, article=article)
+        favorite.delete()
+        messages.success(request, f'"{article.title}" has been removed from your favorites!')
+    except Favorite.DoesNotExist:
+        messages.error(request, 'This article is not in your favorites.')
+    
+    return redirect('article-detail', pk=article_id)
+
+@login_required
+def my_favorites(request):
+    favorites = Favorite.objects.filter(user=request.user).select_related('article').order_by('-added_at')
+    return render(request, 'articles/my_favorites.html', {'favorites': favorites})
