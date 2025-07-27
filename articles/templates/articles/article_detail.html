@@ -56,9 +56,15 @@
                     <div class="article-actions">
                         {% if user.is_authenticated %}
                             <div class="d-grid gap-2">
-                                <button class="btn btn-outline-danger btn-lg">
-                                    <i class="fas fa-heart me-2"></i>Add to Favorites
-                                </button>
+                                {% if article in user.favorite_set.all %}
+                                    <a href="{% url 'toggle-favorite' article.pk %}" class="btn btn-danger btn-lg">
+                                        <i class="fas fa-heart me-2"></i>Remove from Favorites
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'toggle-favorite' article.pk %}" class="btn btn-outline-danger btn-lg">
+                                        <i class="fas fa-heart me-2"></i>Add to Favorites
+                                    </a>
+                                {% endif %}
                             </div>
                         {% endif %}
                     </div>

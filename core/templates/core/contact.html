@@ -1,36 +1,34 @@
 
 {% extends 'base.html' %}
 {% block content %}
-<div class="contact-section py-5">
+<div class="contact-section py-5" style="background: #f8fafd; min-height: 100vh;">
     <div class="container">
-        <!-- Contact Header -->
-        <div class="contact-header text-center mb-5">
-            <h1 class="display-4 fw-bold mb-3" style="color: var(--text-dark);">
-                <i class="fas fa-envelope me-3 text-primary-green"></i>
-                Get In Touch
-            </h1>
-            <p class="lead text-muted mb-4">
-                Have questions, suggestions, or want to collaborate? We'd love to hear from you!
-            </p>
-        </div>
-
-        <div class="row">
-            <!-- Contact Form -->
+        <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="contact-form-card card shadow-custom">
-                    <div class="card-header" style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%); color: white;">
-                        <h4 class="mb-0">
-                            <i class="fas fa-paper-plane me-2"></i>Send Us a Message
-                        </h4>
+                <div class="contact-form-card card shadow" style="border-radius: 20px; border: none;">
+                    <!-- Header with green background -->
+                    <div class="card-header text-white" style="background: #10b981; border-radius: 20px 20px 0 0; padding: 1.5rem 2rem;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-paper-plane fa-2x me-3"></i>
+                            <h3 class="mb-0 fw-bold">Send Us a Message</h3>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <!-- Display Messages -->
+                    
+                    <div class="card-body p-4">
+                        <!-- Success Message Banner -->
                         {% if messages %}
                             {% for message in messages %}
-                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                                    {{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
+                                {% if message.tags == 'success' %}
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 12px; background: #d1fae5; border: 1px solid #10b981; color: #065f46;">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="border-radius: 12px;">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
 
@@ -39,88 +37,96 @@
                             
                             <!-- Display form errors -->
                             {% if form.non_field_errors %}
-                                <div class="alert alert-danger">
+                                <div class="alert alert-danger" style="border-radius: 12px;">
                                     {% for error in form.non_field_errors %}
                                         {{ error }}
                                     {% endfor %}
                                 </div>
                             {% endif %}
 
+                            <!-- Two Column Layout -->
                             <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                        <i class="fas fa-user me-2"></i>First Name
-                                    </label>
-                                    {{ form.first_name }}
-                                    {% if form.first_name.errors %}
-                                        <div class="text-danger small mt-1">
-                                            {% for error in form.first_name.errors %}
-                                                {{ error }}
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                        <i class="fas fa-user me-2"></i>Last Name
-                                    </label>
-                                    {{ form.last_name }}
-                                    {% if form.last_name.errors %}
-                                        <div class="text-danger small mt-1">
-                                            {% for error in form.last_name.errors %}
-                                                {{ error }}
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                        <i class="fas fa-envelope me-2"></i>Email Address
-                                    </label>
-                                    {{ form.email }}
-                                    {% if form.email.errors %}
-                                        <div class="text-danger small mt-1">
-                                            {% for error in form.email.errors %}
-                                                {{ error }}
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                        <i class="fas fa-phone me-2"></i>Phone Number
-                                    </label>
-                                    {{ form.phone }}
-                                    {% if form.phone.errors %}
-                                        <div class="text-danger small mt-1">
-                                            {% for error in form.phone.errors %}
-                                                {{ error }}
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                    <i class="fas fa-tag me-2"></i>Subject
-                                </label>
-                                {{ form.subject }}
-                                {% if form.subject.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {% for error in form.subject.errors %}
-                                            {{ error }}
-                                        {% endfor %}
+                                <!-- Left Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold" style="color: #374151;">
+                                            <i class="fas fa-user me-2 text-success"></i>First Name
+                                        </label>
+                                        {{ form.first_name }}
+                                        {% if form.first_name.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {% for error in form.first_name.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
                                     </div>
-                                {% endif %}
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold" style="color: #374151;">
+                                            <i class="fas fa-envelope me-2 text-success"></i>Email Address
+                                        </label>
+                                        {{ form.email }}
+                                        {% if form.email.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {% for error in form.email.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold" style="color: #374151;">
+                                            <i class="fas fa-tag me-2 text-success"></i>Subject
+                                        </label>
+                                        {{ form.subject }}
+                                        {% if form.subject.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {% for error in form.subject.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Right Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold" style="color: #374151;">
+                                            <i class="fas fa-user me-2 text-success"></i>Last Name
+                                        </label>
+                                        {{ form.last_name }}
+                                        {% if form.last_name.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {% for error in form.last_name.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold" style="color: #374151;">
+                                            <i class="fas fa-phone me-2 text-success"></i>Phone Number
+                                        </label>
+                                        {{ form.phone }}
+                                        {% if form.phone.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {% for error in form.phone.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
                             
+                            <!-- Full Width Message Field -->
                             <div class="mb-4">
-                                <label class="form-label fw-semibold" style="color: var(--text-dark);">
-                                    <i class="fas fa-comment me-2"></i>Message
+                                <label class="form-label fw-semibold" style="color: #374151;">
+                                    <i class="fas fa-comment me-2 text-success"></i>Message
                                 </label>
                                 {{ form.message }}
                                 {% if form.message.errors %}
@@ -132,7 +138,7 @@
                                 {% endif %}
                             </div>
                             
-                            <button type="submit" class="btn btn-success btn-lg w-100">
+                            <button type="submit" class="btn btn-success btn-lg w-100" style="border-radius: 12px; padding: 0.75rem 2rem; font-weight: 600;">
                                 <i class="fas fa-paper-plane me-2"></i>Send Message
                             </button>
                         </form>
@@ -140,111 +146,61 @@
                 </div>
             </div>
             
-            <!-- Contact Info -->
+            <!-- Right Sidebar -->
             <div class="col-lg-4">
-                <div class="contact-info">
-                    <!-- Contact Details -->
-                    <div class="card shadow-custom mb-4">
-                        <div class="card-header" style="background: linear-gradient(135deg, var(--light-green) 0%, var(--accent-green) 100%);">
-                            <h5 class="mb-0" style="color: var(--dark-green);">
-                                <i class="fas fa-info-circle me-2"></i>Contact Information
+                <div class="contact-sidebar">
+                    <!-- Contact Info -->
+                    <div class="card shadow mb-4" style="border-radius: 15px; border: none;">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-3" style="color: #374151;">
+                                <i class="fas fa-info-circle me-2 text-success"></i>Contact
                             </h5>
-                        </div>
-                        <div class="card-body">
                             <div class="contact-item mb-3">
                                 <div class="d-flex align-items-center">
-                                    <i class="fas fa-envelope fa-lg text-primary-green me-3"></i>
-                                    <div>
-                                        <strong>Email</strong>
-                                        <div class="text-muted">info@ecohub.com</div>
-                                    </div>
+                                    <i class="fas fa-envelope text-success me-3"></i>
+                                    <span class="text-muted">info@ecohub.com</span>
                                 </div>
                             </div>
                             <div class="contact-item mb-3">
                                 <div class="d-flex align-items-center">
-                                    <i class="fas fa-phone fa-lg text-primary-green me-3"></i>
-                                    <div>
-                                        <strong>Phone</strong>
-                                        <div class="text-muted">(555) 123-4567</div>
-                                    </div>
+                                    <i class="fas fa-phone text-success me-3"></i>
+                                    <span class="text-muted">(555) 123-4567</span>
                                 </div>
                             </div>
                             <div class="contact-item mb-3">
                                 <div class="d-flex align-items-center">
-                                    <i class="fas fa-map-marker-alt fa-lg text-primary-green me-3"></i>
-                                    <div>
-                                        <strong>Address</strong>
-                                        <div class="text-muted">123 Green Street<br>EcoCity, EC 12345</div>
-                                    </div>
+                                    <i class="fas fa-map-marker-alt text-success me-3"></i>
+                                    <span class="text-muted">123 Green Street, EcoCity</span>
                                 </div>
                             </div>
                             <div class="contact-item">
                                 <div class="d-flex align-items-center">
-                                    <i class="fas fa-clock fa-lg text-primary-green me-3"></i>
-                                    <div>
-                                        <strong>Hours</strong>
-                                        <div class="text-muted">Mon-Fri: 9AM-6PM<br>Sat-Sun: 10AM-4PM</div>
-                                    </div>
+                                    <i class="fas fa-clock text-success me-3"></i>
+                                    <span class="text-muted">Mon-Fri: 9AM-6PM</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Social Media -->
-                    <div class="card shadow-custom mb-4">
-                        <div class="card-header" style="background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);">
-                            <h5 class="mb-0" style="color: #1e40af;">
-                                <i class="fas fa-share-alt me-2"></i>Follow Us
+                    <!-- Follow Section -->
+                    <div class="card shadow" style="border-radius: 15px; border: none;">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-3" style="color: #374151;">
+                                <i class="fas fa-link me-2 text-success"></i>Follow
                             </h5>
-                        </div>
-                        <div class="card-body">
                             <div class="social-links">
-                                <a href="#" class="btn btn-outline-primary btn-sm me-2 mb-2">
-                                    <i class="fab fa-facebook-f me-1"></i>Facebook
-                                </a>
-                                <a href="#" class="btn btn-outline-info btn-sm me-2 mb-2">
-                                    <i class="fab fa-twitter me-1"></i>Twitter
+                                <a href="#" class="btn btn-outline-success btn-sm me-2 mb-2">
+                                    <i class="fab fa-facebook-f"></i>
                                 </a>
                                 <a href="#" class="btn btn-outline-success btn-sm me-2 mb-2">
-                                    <i class="fab fa-instagram me-1"></i>Instagram
+                                    <i class="fab fa-twitter"></i>
                                 </a>
-                                <a href="#" class="btn btn-outline-primary btn-sm me-2 mb-2">
-                                    <i class="fab fa-linkedin-in me-1"></i>LinkedIn
+                                <a href="#" class="btn btn-outline-success btn-sm me-2 mb-2">
+                                    <i class="fab fa-instagram"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- FAQ Link -->
-                    <div class="card shadow-custom">
-                        <div class="card-header" style="background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);">
-                            <h5 class="mb-0" style="color: #92400e;">
-                                <i class="fas fa-question-circle me-2"></i>Need Quick Help?
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="text-muted mb-3">
-                                Check out our frequently asked questions for quick answers to common inquiries.
-                            </p>
-                            <a href="#" class="btn btn-warning w-100">
-                                <i class="fas fa-question-circle me-2"></i>View FAQ
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Response Time Info -->
-        <div class="response-info mt-5">
-            <div class="alert alert-info d-flex align-items-center">
-                <i class="fas fa-clock me-3 fa-2x"></i>
-                <div>
-                    <h5 class="mb-1">Response Time</h5>
-                    <p class="mb-0">
-                        We typically respond to all inquiries within 24-48 hours during business days. 
-                        For urgent matters, please call us directly.
-                    </p>
                 </div>
             </div>
         </div>
@@ -252,26 +208,30 @@
 </div>
 
 <style>
-    .contact-form-card {
-        border: none;
-        border-radius: 15px;
+    .form-control, .form-select {
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e5e7eb;
         transition: all 0.3s ease;
+        background: white;
     }
 
-    .contact-form-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+    .form-control:focus, .form-select:focus {
+        border-color: #10b981;
+        box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.1);
+        outline: none;
+    }
+
+    .form-control::placeholder {
+        color: #9ca3af;
     }
 
     .contact-item {
-        padding: 1rem;
-        background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
-        border-radius: 10px;
-        border-left: 4px solid var(--primary-green);
+        padding: 0.5rem 0;
     }
 
     .social-links .btn {
-        border-radius: 20px;
+        border-radius: 8px;
         transition: all 0.3s ease;
     }
 
@@ -279,23 +239,13 @@
         transform: translateY(-2px);
     }
 
-    .form-control, .form-select {
-        border-radius: 12px;
-        padding: 0.75rem 1rem;
-        border: 2px solid var(--border-color);
+    .card {
         transition: all 0.3s ease;
     }
 
-    .form-control:focus, .form-select:focus {
-        border-color: var(--primary-green);
-        box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.1);
-    }
-
-    .response-info .alert {
-        border-radius: 15px;
-        border: none;
-        background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
-        border-left: 4px solid #3b82f6;
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
     }
 </style>
 {% endblock %}
