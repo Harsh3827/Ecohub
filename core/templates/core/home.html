@@ -26,7 +26,8 @@
                         <div class="row">
                             <div class="col-4 text-center">
                                 <div class="stat-item">
-                                    <i class="fas fa-leaf fa-2x mb-2" style="color: var(--accent-green);"></i>
+                                    <!-- <i class="fas fa-leaf fa-2x mb-2" style="color: var(--accent-green);"></i> -->
+                                    <i class="fa-solid fa-seedling fa-2x mb-2" style="color: var(--accent-green);"></i>
                                     <div class="h4 mb-0">500+</div>
                                     <small>Eco Tips</small>
                                 </div>
@@ -136,7 +137,8 @@
                         <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
                         <div class="card-overlay" style="position: absolute; top: 10px; right: 10px;">
                             <span class="badge bg-success" style="border-radius: 20px; padding: 0.5rem 1rem;">
-                                <i class="fas fa-leaf me-1"></i>{{ article.category|title }}
+                                <!-- <i class="fas fa-leaf me-1"></i>{{ article.category|title }} -->
+                                <i class="fa-solid fa-seedling me-1"></i>{{ article.category|title }}
                             </span>
                         </div>
                     </div>
@@ -296,7 +298,8 @@
             <div class="col-lg-4 text-lg-end">
                 {% if not user.is_authenticated %}
                 <a href="{% url 'register' %}" class="btn btn-light btn-lg">
-                    <i class="fas fa-leaf me-2"></i>Join EcoHub Today
+                    <!-- <i class="fas fa-leaf me-2"></i>Join EcoHub Today -->
+                    <i class="fa-solid fa-seedling me-2"></i>Join EcoHub Today
                 </a>
                 {% else %}
                 <a href="{% url 'article-create' %}" class="btn btn-light btn-lg">
