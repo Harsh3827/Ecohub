@@ -134,9 +134,3 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 This project is for educational use only as part of the COMP-8347 Internet Applications and Distributed Systems course at the University of Windsor.
 
 ---
-
-## Contact
-
-For questions or collaboration, please contact the EcoHub team at the University of Windsor.
-
----
